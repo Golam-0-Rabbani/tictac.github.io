@@ -1,0 +1,83 @@
+﻿angular.module("wmApp").controller("aboutController", [
+  "$scope",
+  "$routeParams",
+  function ($scope, $routeParams) {
+    var errorFunction = function (error) {
+      console.log(error);
+    };
+    var categoryId = parseInt($routeParams.cId);
+
+    function init() {
+      //console.log($routeParams.cId);
+      $scope.copyright = new Date();
+      $scope.currentMinute = new Date().getTime();
+      //$scope.findCategoryWise(1);
+      if (categoryId > 0) {
+        console.log($routeParams.cId);
+        $scope.findCategoryWise(categoryId);
+      }
+    }
+
+    $scope.findCategoryWise = function (id) {
+      console.log(id);
+      $scope.SelfPortrayal = false;
+      $scope.vcmessage = false;
+      $scope.visionNmission = false;
+      $scope.previousvc = false;
+      $scope.provcmessage = false;
+      $scope.gallery = false;
+
+      switch (id) {
+        case 1:
+          $scope.SelfPortrayal = true;
+          break;
+        case 2:
+          $scope.vcmessage = true;
+          break;
+        case 3:
+          $scope.visionNmission = true;
+          break;
+        case 4:
+          $scope.previousvc = true;
+          break;
+        case 5:
+          $scope.provcmessage = true;
+          break;
+        case 6:
+          $scope.CarouselDemoCtrl();
+          $scope.gallery = true;
+          break;
+        default:
+          $scope.SelfPortrayal = true;
+          break;
+      }
+    };
+
+    $scope.CarouselDemoCtrl = function () {
+      $scope.dataArray = [
+        {
+          image: "assets/img/gallery/a (1).jpeg",
+        },
+        {
+          image: "assets/img/gallery/a (2).jpeg",
+        },
+        {
+          image: "assets/img/gallery/a (3).jpeg",
+        },
+        {
+          image: "assets/img/gallery/a (4).jpeg",
+        },
+        {
+          image: "assets/img/gallery/a (5).jpeg",
+        },
+        {
+          image: "assets/img/gallery/a (6).jpeg",
+        },
+        {
+          image: "assets/img/gallery/a (7).jpeg",
+        },
+      ];
+    };
+    init();
+  },
+]);

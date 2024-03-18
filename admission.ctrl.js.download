@@ -1,0 +1,76 @@
+﻿angular.module("wmApp").controller("admissionController", [
+  "$scope",
+  "$location",
+  "$routeParams",
+  "imgUploadService",
+  "hNewsService",
+  "noticeService",
+  function (
+    $scope,
+    $location,
+    $routeParams,
+    imgUploadService,
+    hNewsService,
+    noticeService
+  ) {
+    var errorFunction = function (error) {
+      console.log(error);
+    };
+    var categoryId = parseInt($routeParams.cId);
+
+    function init() {
+      //console.log($routeParams.cId);
+      $scope.copyright = new Date();
+      $scope.currentMinute = new Date().getTime();
+      //$scope.findCategoryWise(1);
+      if (categoryId > 0) {
+        $scope.findCategoryWise(categoryId);
+      }
+    }
+
+    $scope.findCategoryWise = function (id) {
+      $scope.udergraduateadm = false;
+      $scope.postgraduateadm = false;
+      $scope.admofforeignstd = false;
+      $scope.degreesoffered = false;
+      $scope.scholaropp = false;
+      $scope.contact = false;
+
+      switch (id) {
+        case 1:
+          $scope.udergraduateadm = true;
+          break;
+        case 2:
+          $scope.postgraduateadm = true;
+          break;
+        case 3:
+          $scope.admofforeignstd = true;
+          break;
+        case 4:
+          $scope.degreesoffered = true;
+          break;
+        case 5:
+          $scope.scholaropp = true;
+          break;
+          case 6:
+            $scope.contact = true;
+            break;
+        default:
+          $scope.udergraduateadm = true;
+          break;
+      }
+    };
+
+    $scope.getPgAdmissionPage = function (id) {
+      $scope.noticeObj = {};
+      noticeService.getDetailById(id).then(function (response) {
+        if (response.IsSuccess) {
+          $scope.noticeObj = response.Data;
+        } else {
+          console.log(response);
+        }
+      }, errorFunction);
+    };
+    init();
+  },
+]);

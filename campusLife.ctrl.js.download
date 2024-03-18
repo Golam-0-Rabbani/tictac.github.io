@@ -1,0 +1,60 @@
+﻿angular.module("wmApp").controller("campusLifeController", [
+  "$scope",
+  "$location",
+  "$routeParams",
+  "imgUploadService",
+  "hNewsService",
+  function ($scope, $location, $routeParams, imgUploadService, hNewsService) {
+    var errorFunction = function (error) {
+      console.log(error);
+    };
+    var categoryId = parseInt($routeParams.cId);
+
+        function init() {
+            //console.log($routeParams.cId);
+            $scope.copyright = new Date();
+            $scope.currentMinute = new Date().getTime();
+            //$scope.findCategoryWise(1);
+            if (categoryId > 0) {
+                console.log($routeParams.cId);
+                $scope.findCategoryWise(categoryId);
+            }
+
+        }
+
+    $scope.findCategoryWise = function (id) {
+      console.log(id);
+      $scope.showResLife = false;
+      $scope.stucActi = false;
+      $scope.games = false;
+      $scope.clubs = false;
+      $scope.occup = false;
+      $scope.medical = false;
+
+            switch (id) {
+                case 1:
+                    $scope.showResLife = true;
+                    break;
+                case 2:
+                    $scope.stucActi = true;
+                    break;
+                case 3:
+                    $scope.games = true;
+                    break;
+                case 4:
+                    $scope.clubs = true;
+                    break;
+                case 5:
+                    $scope.occup = true;
+                    break;
+                case 6:
+                    $scope.medical = true;
+                    break;
+                default:
+                    $scope.showResLife = true;
+                    break;
+
+            }
+        }
+        init();
+    }]);

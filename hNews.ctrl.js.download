@@ -1,0 +1,139 @@
+﻿angular.module('wmApp').controller('hHewsIndexController',
+    [
+        '$scope', '$location', 'imgUploadService', 'hNewsService',
+        function($scope, $location, imgUploadService, hNewsService) {
+            var errorFunction = function(error) {
+                console.log(error);
+            }
+            $scope.imgName = '37d737d9-5926-4923-9ce7-bd4c7fbcda2d_Detailed.jpg';
+            $scope.getImageSec = function(imageId, ind) {
+                $scope.image_source = "";
+                //return imgUploadService.getNewsImageUrl(imageId, new Date().getTime(), ind);
+                return imgUploadService.getNewsImageUrl(imageId, ind, 0);
+            }
+            $scope.refresh = function() {
+                init();
+            }
+
+            function init() {
+                $scope.isNewsOpen = true;
+                $scope.copyright = new Date();
+                $scope.currentMinute = new Date().getTime();
+                $scope.pageName = 'News Index';
+                $scope.getAllNewsTypes();
+
+                $scope.pageObj = {
+                    PageNo: 0,
+                    PageSize: 10
+                };
+                $scope.requestObj = {
+                    Keyword: '',
+                    SortByEntryDate: true,
+                    IsAscending: true,
+                    PageObj: $scope.pageObj,
+                    HeadNewsTypeId: 0,
+                    IsEvent:false
+                };
+                // $scope.getList();
+                $scope.loadPaginatedPrimary();
+            }
+
+            $scope.pageSizeSet = function() {
+                var pagesize = $scope.pageObj.PageSize;
+                $scope.pageObj = { PageNo: 0, PageSize: pagesize, TotalPages: 0, TotalCount: 0 };
+                $scope.loadPaginatedPrimary();
+            };
+
+            $scope.navPage = function(pageVal) {
+
+                var pageMove = $scope.pageObj.PageNo + pageVal;
+                var totalPage = $scope.pageObj.TotalPages;
+                if (totalPage >= pageMove + 1 && pageMove >= 0) {
+                    /* console.log(pageMove + "/" + totalPage);*/
+                    var pagesize = $scope.pageObj.PageSize;
+                    $scope.pageObj = { PageNo: pageMove, PageSize: pagesize, TotalPages: 0, TotalCount: 0 };
+                    $scope.loadPaginatedPrimary();
+                }
+            };
+            $scope.loadEventsTab = function(id) {
+                var parsed = parseInt(id);
+                $scope.isNewsOpen = parsed === 8 ? false : true;
+                $scope.requestObj.HeadNewsTypeId = id;
+                $scope.requestObj.IsEvent = $scope.isNewsOpen ? false : true;
+                $scope.loadPaginatedPrimary();
+            }
+            $scope.loadPaginatedPrimary = function () {
+                
+                $scope.requestObj.PageObj = $scope.pageObj;
+                $scope.getAllPaginated();
+            };
+            $scope.getAllPaginated = function() {
+                $scope.list = [];
+                hNewsService.getAllInit($scope.requestObj)
+                    .then(function(response) {
+                            if (response.IsSuccess) {
+                                $scope.list = response.Data;
+                                $scope.listLength = response.Data.length;
+                                $scope.pageObj = null;
+                                $scope.pageObj = response.Pagination;
+                                console.log($scope.list);
+                            } else {
+                                console.log(response);
+                            }
+                        },
+                        errorFunction);
+            };
+
+            $scope.getList = function() {
+                $scope.list = [];
+                hNewsService.getAllInit()
+                    .then(function(response) {
+                            if (response.IsSuccess) {
+                                $scope.list = response.Data;
+                            } else {
+                                console.log(response);
+                            }
+                        },
+                        errorFunction);
+            };
+            $scope.getAllNewsTypes = function() {
+                hNewsService.getAllTypeNews()
+                    .then(function(response) {
+                            if (response.IsSuccess) {
+                                $scope.newsType = response.Data;
+                            } else {
+                                console.log(response);
+                            }
+                        },
+                        errorFunction);
+            };
+            $scope.search = function() {
+                $scope.getAllPaginated();
+            }
+
+            $scope.goToDetails = function(id) {
+                $location.path('/details/' + id);
+            }
+            $scope.findCategoryWise = function(id) {
+                $scope.requestObj.HeadNewsTypeId = id;
+                $scope.getAllPaginated();
+            }
+            init();
+        }
+    ]);
+
+
+angular.module('wmApp').directive('ngEnter', function () {
+        return function (scope, elem, attrs) {
+            elem.bind("keydown keypress", function (event) {
+                // 13 represents enter button
+                if (event.which === 13) {
+                    scope.$apply(function () {
+                        scope.$eval(attrs.ngEnter);
+                    });
+
+                    event.preventDefault();
+                }
+            });
+        };
+    });

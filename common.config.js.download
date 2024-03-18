@@ -1,0 +1,21 @@
+﻿var servAppCl = angular.module('servAppCl', []);
+servAppCl.factory('baseService', function () {
+    //return {
+    //    infoWebUrl: 'http://103.94.135.221/buet_ws_1_6_9/',
+    //    apiServiceUrl: 'http://103.94.135.221/buet_api/api/',
+    //    mainServiceUrl: 'http://103.94.135.221/buet_api/'
+    //};
+    return {
+       infoWebUrl: 'https://www.buet.ac.bd/info/',
+       apiServiceUrl: 'https://www.buet.ac.bd/service/api/',
+       mainServiceUrl: 'https://www.buet.ac.bd/service/',
+       cacheApi: "https://cluster-1.buet.ac.bd/cacheApi/",
+    };
+    // return {
+    //     infoWebUrl: 'http://localhost:5274/',
+    //     apiServiceUrl: 'http://localhost:3331/api/',
+    //     mainServiceUrl: 'http://localhost:3331/'
+    // };
+});
+
+var dirApp = angular.module('directivesApp', []);

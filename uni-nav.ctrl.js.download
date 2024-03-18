@@ -1,0 +1,83 @@
+angular.module("wmApp").controller("uniNavController", [
+  "$scope",
+  "$routeParams",
+  "$location",
+  "$http",
+  "$q",
+  "$resource",
+  function ($scope, $routeParams, $location, $http, $q, $resource) {
+    var errorFunction = function (error) {
+      console.log(error);
+    };
+    var log = console.log;
+    $scope.categoryId = parseInt($routeParams.id);
+
+    function init() {
+      $scope.loggerUrl = "https://buet-logger.onrender.com/api/v1/logger";
+      $scope.ugLink = "";
+      $scope.currentMinute = new Date().getTime();
+      var collectionDate = "1993-01-01T09:00:00";
+      var date = new Date(collectionDate);
+      $scope.initObj = {
+        establishmentDate: date,
+      };
+
+      if ($scope.categoryId == undefined || isNaN($scope.categoryId)) {
+        $scope.categoryId = 1;
+      }
+      $scope.getRandomLink();
+    }
+
+    $scope.visible = false;
+    $scope.toggle = function () {
+      $scope.visible = !$scope.visible;
+    };
+
+    $scope.findCategoryWise = function (id) {
+      $scope.categoryId = id;
+    };
+    $scope.logUser = function (destination) {
+      var destinationObj = { destination: destination };
+      var defer = $q.defer();
+      var resource = $resource($scope.loggerUrl);
+      resource.save(
+        destinationObj,
+        function (response) {
+          defer.resolve(response);
+        },
+        function (error) {
+          console.log(error);
+        }
+      );
+      defer.promise;
+    };
+    $scope.logMe = function (destination) {
+      console.log(destination);
+      $http({
+        url: $scope.loggerUrl,
+        method: "POST",
+        data: { destination: destination },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      }).then(
+        function (response) {
+          // success
+        },
+        function (response) {
+          // optional
+          // failed
+        }
+      );
+    };
+    $scope.getRandomLink = function () {
+      $scope.ugLink = "";
+      var links = [
+        // "http://uga1.buet.ac.bd/UGA/",
+        "http://uga2.buet.ac.bd/UGA/",
+        "http://uga3.buet.ac.bd/UGA/",
+      ];
+      $scope.ugLink = links[Math.floor(Math.random() * links.length) | 0];
+    };
+
+    init();
+  },
+]);

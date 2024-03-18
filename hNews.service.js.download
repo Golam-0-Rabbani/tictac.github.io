@@ -1,0 +1,125 @@
+﻿
+servAppCl.service('hNewsService', ['$resource', '$q', 'baseService',
+    function ($resource, $q, baseService) {
+        var baseUrlType = baseService.apiServiceUrl + 'HeadNewsTypeQuery';
+        var baseUrlNews = baseService.apiServiceUrl + 'HNewsQuery';
+        var cacheUrl = baseService.cacheApi;
+
+        var getAllForLanding= function () {
+            var defer = $q.defer();
+            var url = baseUrlNews + "/GetForLandingList";
+            //var url = cacheUrl + "news/landing";
+            var resource = $resource(url);
+            resource.get(function (response) {
+                    defer.resolve(response);
+                },
+                function (error) {
+                    return defer.reject(error);
+                });
+            return defer.promise;
+        };
+        var getAllEventForLanding = function () {
+            var defer = $q.defer();
+            var url = baseUrlNews + '/GetEventForLandingList';
+            // var url = cacheUrl + "events/landing";
+            var resource = $resource(url);
+            resource.get(function (response) {
+                    defer.resolve(response);
+                },
+                function (error) {
+                    return defer.reject(error);
+                });
+            return defer.promise;
+        };
+        var getAllInit = function (obj) {
+            var defer = $q.defer();
+            var url = baseUrlNews + '/GetList';
+           // var url = cacheUrl + "news/archive";
+            var resource = $resource(url);
+            resource.save(obj,
+                function (response) {
+                    defer.resolve(response);
+                },
+                function (error) {
+                    return defer.reject(error);
+                });
+            return defer.promise;
+        };
+      var getAllPaginated = function (obj) {
+            var defer = $q.defer();
+            var url = baseUrlNews + '/LoadAllPaginated';
+            var resource = $resource(url);
+            resource.save(obj,
+                function (response) {
+                    defer.resolve(response);
+                },
+                function (error) {
+                    return defer.reject(error);
+                });
+            return defer.promise;
+        };
+
+        var getAllType = function () {
+            var defer = $q.defer();
+            var url = baseUrlNews + '/GetAllTypes';
+            var resource = $resource(url);
+            resource.get(function (response) {
+                defer.resolve(response);
+            },
+                function (error) {
+                    return defer.reject(error);
+                });
+            return defer.promise;
+        };
+
+        var getSingle = function (id) {
+            var defer = $q.defer();
+            var url = baseUrlNews + '/FindSingle';
+            var resource = $resource(url + '?id=' + id);
+            resource.get(function (response) {
+                defer.resolve(response);
+            },
+                function (error) {
+                    return defer.reject(error);
+                });
+            return defer.promise;
+        };
+        var getDetails = function (id) {
+            var defer = $q.defer();
+            var url = baseUrlNews + '/GetDetails';
+            var resource = $resource(url + '?id=' + id);
+            resource.get(function (response) {
+                    defer.resolve(response);
+                },
+                function (error) {
+                    return defer.reject(error);
+                });
+            return defer.promise;
+        };
+
+        var getAllTypeNews = function () {
+            var defer = $q.defer();
+            var url = baseUrlType + '/GetAllTypes';
+            var resource = $resource(url);
+            resource.get(function (response) {
+                    defer.resolve(response);
+                },
+                function (error) {
+                    return defer.reject(error);
+                });
+            return defer.promise;
+        };
+
+        return {
+            getAllForLanding: getAllForLanding,
+            getAllEventForLanding: getAllEventForLanding,
+            getAllInit: getAllInit,
+            getAllPaginated: getAllPaginated,
+            getAllType: getAllType,
+            getSingle: getSingle,
+            getDetails: getDetails,
+            getAllTypeNews: getAllTypeNews
+
+        };
+
+    }]);

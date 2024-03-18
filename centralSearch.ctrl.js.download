@@ -1,0 +1,171 @@
+﻿angular
+  .module("wmApp")
+  .controller("centralSearchController", [
+    "$scope",
+    "centralSearchService",
+    "$timeout",
+    function ($scope, centralSearchService, $timeout) {
+      var errorFunction = function (error) {
+        console.log(error);
+      };
+
+      $scope.init = function () {
+        $scope.chkBoxSec = 1;
+        $scope.typeHereTxt = "Search in People";
+
+        $scope.searchText = "";
+
+        $scope.peopleList = [];
+        $scope.deptOfficeList = [];
+        $scope.researchProfiles = [];
+
+        $scope.requestObj = {
+          KeyWord: "",
+          SortByEntryDate: true,
+          IsAscending: true,
+          PageObj: null,
+        };
+      };
+
+      $scope.reDataLoad = function (researchList) {
+        if (researchList != null) {
+          $scope.rAreas = researchList.split(";");
+          return $scope.rAreas;
+        }
+      };
+      $scope.loadAllSec = function () {
+        $scope.loadSuggestion();
+        $scope.loadAllData();
+      };
+
+      $scope.loadSuggestion = function () {
+        switch ($scope.chkBoxSec) {
+          case 1:
+            $scope.typeHereTxt = "Search in People";
+            break;
+          case 2:
+            $scope.typeHereTxt = "Search in Department/Office";
+            break;
+          case 3:
+            $scope.typeHereTxt =
+              "Search in  Research Profile or Research Topics/Interests";
+            break;
+          case 4:
+            $scope.typeHereTxt = "Search in News";
+            break;
+          case 5:
+            $scope.typeHereTxt = "Search in Web pages of BUET website";
+            break;
+        }
+      };
+      $scope.loadToolTip = function (chkBoxId) {
+        console.log(chkBoxId);
+        switch (chkBoxId) {
+          case 1:
+            return "Search in People";
+          case 2:
+            return "Search in Department/Office";
+          case 3:
+            return "Search in  Research Profile or Research Topics/Interests";
+          case 4:
+            return "Search in News";
+          case 5:
+            return "Search in Web pages of BUET website";
+        }
+      };
+      $scope.loadAllData = function () {
+        if ($scope.requestObj.KeyWord.length >= 3) {
+          switch ($scope.chkBoxSec) {
+            case 1:
+              $scope.loadAllPeople();
+              break;
+            case 2:
+              $scope.loadAllDeptOffice();
+              break;
+            case 3:
+              $scope.loadAllResearchProfile();
+              break;
+            case 4:
+              $scope.loadAllNews();
+              break;
+            case 5:
+              $scope.loadAllPages();
+              break;
+          }
+        }
+      };
+
+      $scope.loadAllPeople = function () {
+        $scope.peopleList = [];
+        centralSearchService
+          .loadFromDiaryPeople($scope.requestObj)
+          .then(function (response) {
+            if (response.IsSuccess) {
+              $scope.peopleList = response.Data;
+            } else {
+              console.log(response);
+            }
+          }, errorFunction);
+      };
+      $scope.loadAllDeptOffice = function () {
+        $scope.deptOfficeList = [];
+
+        centralSearchService
+          .loadFromDeptOffice($scope.requestObj)
+          .then(function (response) {
+            if (response.IsSuccess) {
+              $scope.deptOfficeList = response.Data;
+            } else {
+              console.log(response);
+            }
+          }, errorFunction);
+      };
+      $scope.loadAllResearchProfile = function () {
+        $scope.researchProfiles = [];
+        centralSearchService
+          .loadFromResearchProfile($scope.requestObj)
+          .then(function (response) {
+            if (response.IsSuccess) {
+              $scope.researchProfiles = response.Data;
+            } else {
+              console.log(response);
+            }
+          }, errorFunction);
+      };
+
+      $scope.loadAllNews = function () {
+        $scope.newsList = [];
+        centralSearchService
+          .loadFromNews($scope.requestObj)
+          .then(function (response) {
+            if (response.IsSuccess) {
+              $scope.newsList = response.Data;
+            } else {
+              console.log(response);
+            }
+          }, errorFunction);
+      };
+      $scope.loadAllNotice = function () {
+        $scope.noticeList = [];
+        centralSearchService
+          .loadFromNotice($scope.requestObj)
+          .then(function (response) {
+            if (response.IsSuccess) {
+              $scope.noticeList = response.Data;
+            } else {
+              console.log(response);
+            }
+          }, errorFunction);
+      };
+      $scope.loadAllPages = function () {
+        $scope.webPages = [];
+        $scope.webPages = centralSearchService.getPages();
+      };
+      $scope.init();
+    },
+  ])
+  .filter("numkeys", function () {
+    return function (object) {
+      return Object.keys(object).length;
+    };
+  });

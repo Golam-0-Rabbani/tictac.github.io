@@ -1,0 +1,279 @@
+﻿var wmApp = angular
+  .module("wmApp", [
+    "ngRoute",
+    "ngResource",
+    "servAppCl",
+    "ngMaterial",
+    "ngMessages",
+    "ui.bootstrap",
+    "jkAngularCarousel",
+  ])
+  .config([
+    "$routeProvider",
+    "$locationProvider",
+    "$qProvider",
+    function ($routeProvider, $locationProvider, $qProvider) {
+      $routeProvider
+        .when("/", {
+          templateUrl: "./angular_app/main.tpl.html",
+          controller: "mainController",
+        })
+        .when("/hNewsIndex", {
+          templateUrl: "angular_app/modules/hNews/hNewsIndex.tpl.html",
+          controller: "hHewsIndexController",
+        })
+        .when("/details/:newsId", {
+          templateUrl: "angular_app/modules/hNews/newsDetails.tpl.html",
+          controller: "hHewsDetailsController",
+        })
+        .when("/student", {
+          templateUrl: "angular_app/modules/otherPages/student.tpl.html",
+          controller: "menuController",
+        })
+        .when("/facultyStaff", {
+          templateUrl: "angular_app/modules/otherPages/facultyStaff.tpl.html",
+          controller: "menuController",
+        })
+        .when("/campusLife/:cId", {
+          templateUrl: "angular_app/modules/campusLife/campusLife.tpl.html",
+          controller: "campusLifeController",
+        })
+        .when("/admission/:cId", {
+          templateUrl: "angular_app/modules/admission/admission.tpl.html",
+          controller: "admissionController",
+        })
+        .when("/research/:cId", {
+          templateUrl: "angular_app/modules/research/research.tpl.html",
+          controller: "researchController",
+        })
+        .when("/academics/:cId", {
+          templateUrl: "angular_app/modules/academics/academics.tpl.html",
+          controller: "academicsController",
+        })
+        .when("/about/:cId", {
+          templateUrl: "angular_app/modules/about/about_n.tpl.html",
+          controller: "aboutController",
+        })
+        .when("/covid19/:cId", {
+          templateUrl: "angular_app/modules/covid19/covid.tpl.html",
+          controller: "covidController",
+        })
+        .when("/acknowledgement", {
+          templateUrl:
+            "angular_app/modules/otherPages/acknowledgement.tpl.html",
+          controller: "menuController",
+        })
+        .when("/administration", {
+          templateUrl:
+            "angular_app/modules/administration/administration.tpl.html",
+          controller: "menuController",
+        })
+        .when("/VC_Profile", {
+          templateUrl: "angular_app/modules/administration/VC_Profile.tpl.html",
+          controller: "menuController",
+        })
+        .when("/Provc_profile", {
+          templateUrl:
+            "angular_app/modules/administration/Provc_profile.tpl.html",
+          controller: "menuController",
+        })
+
+        .when("/contact", {
+          templateUrl: "angular_app/modules/otherPages/contact.tpl.html",
+          controller: "menuController",
+        })
+        .when("/profileIndex", {
+          templateUrl:
+            "angular_app/modules/facultyIndex/facultyIndex.tpl.html?v1.2",
+          controller: "facultyIndexController",
+        })
+        .when("/profile/:id", {
+          templateUrl:
+            "angular_app/modules/facultyIndex/singleProfile.tpl.html?v1.2",
+          controller: "facultySingleController",
+        })
+        .when("/facultiesOnDeputation", {
+          templateUrl:
+            "angular_app/modules/facultyOutside/facultyOutside.tpl.html?v1.2",
+          controller: "facultyOutsideController",
+          // onEnter
+        })
+        .when("/facultyOutside/:cId", {
+          templateUrl: "angular_app/modules/facultyOutside/facoutside.tpl.html",
+          controller: "facultyOutsideController",
+        })
+        .when("/department", {
+          templateUrl: "angular_app/modules/department/department.tpl.html",
+          controller: "basePageController",
+        })
+        .when("/notice/:id", {
+          templateUrl: "angular_app/modules/notice/noticeIndex.tpl.html",
+          controller: "noticeController",
+        })
+        .when("/noticeDetail/:id", {
+          templateUrl: "angular_app/modules/notice/noticeDetail.tpl.html",
+          controller: "noticeDetailController",
+        })
+        .when("/institutes", {
+          templateUrl: "angular_app/modules/institutes/institutes.tpl.html",
+          controller: "basePageController",
+        })
+        .when("/library", {
+          templateUrl: "angular_app/modules/library/library.tpl.html",
+          controller: "libraryController",
+        })
+        .when("/faq", {
+          templateUrl: "angular_app/modules/faq/faq.tpl.html",
+          controller: "faqController",
+        })
+        .when("/itSupport", {
+          templateUrl: "angular_app/modules/itSupport/itSupport.tpl.html",
+          controller: "basePageController",
+        })
+        .when("/compOff", {
+          templateUrl:
+            "angular_app/modules/comptrollerOffice/comptrollerOffice.tpl.html",
+          controller: "basePageController",
+        })
+        .when("/engOff", {
+          templateUrl: "angular_app/modules/engOffice/engOffice.tpl.html",
+          controller: "engOffController",
+        })
+        .when("/ictCell", {
+          templateUrl: "angular_app/modules/ictCell/ictCell.tpl.html",
+          controller: "basePageController",
+        })
+        .when("/brtc", {
+          templateUrl: "angular_app/modules/brtc/brtc.tpl.html",
+          controller: "basePageController",
+        })
+        .when("/faculties", {
+          templateUrl: "angular_app/modules/faculties/faculties.tpl.html",
+          controller: "basePageController",
+        })
+        .when("/apfaculties", {
+          templateUrl: "angular_app/modules/faculties/apFaculty.tpl.html",
+          controller: "uniNavController",
+        })
+        .when("/eeefaculties", {
+          templateUrl: "angular_app/modules/faculties/eeeFaculty.tpl.html",
+          controller: "uniNavController",
+        })
+        .when("/engfaculties", {
+          templateUrl: "angular_app/modules/faculties/engFaculty.tpl.html",
+          controller: "uniNavController",
+        })
+        .when("/cefaculties", {
+          templateUrl: "angular_app/modules/faculties/ceFaculty.tpl.html",
+          controller: "uniNavController",
+        })
+        .when("/mefaculties", {
+          templateUrl: "angular_app/modules/faculties/meFaculty.tpl.html",
+          controller: "uniNavController",
+        })
+        .when("/Sciencefaculties", {
+          templateUrl: "angular_app/modules/faculties/scienceFaculty.tpl.html",
+          controller: "uniNavController",
+        })
+        .when("/vcOffice", {
+          templateUrl: "angular_app/modules/vcOffice/vcOffice.tpl.html",
+          controller: "basePageController",
+        })
+        .when("/proVcOffice", {
+          templateUrl: "angular_app/modules/proVcOffice/proVcOffice.tpl.html",
+          controller: "basePageController",
+        })
+        .when("/dsw", {
+          templateUrl: "angular_app/modules/dsw/dsw.tpl.html",
+          controller: "dswController",
+        })
+        .when("/controllerOfExamination", {
+          templateUrl:
+            "angular_app/modules/controllerOfExamination/controllerOfExamination.tpl.html",
+          controller: "basePageController",
+        })
+        .when("/daers", {
+          templateUrl: "angular_app/modules/daers/daers.tpl.html",
+          controller: "basePageController",
+        })
+        //.when('/buetSearch',
+        //    {
+        //        templateUrl: 'angular_app/modules/buetSearch/buetSearch.tpl.html',
+        //        controller: 'buetSearchController'
+        //    })
+        .when("/buetSearch", {
+          templateUrl:
+            "angular_app/modules/centralSearch/centralSearch.tpl.html",
+          controller: "centralSearchController",
+        })
+
+        .when("/gallery", {
+          templateUrl: "angular_app/modules/gallery/gallery.tpl.html",
+          controller: "galleryController",
+        })
+        .when("/apa", {
+          templateUrl: "angular_app/modules/apa/apa.tpl.html",
+        })
+        .when("/part1/:id", {
+          templateUrl: "angular_app/modules/apa/part1.tpl.html",
+          controller: "uniNavController",
+        })
+        .when("/part2/:id", {
+          templateUrl: "angular_app/modules/apa/part2.tpl.html?v1.1",
+          controller: "uniNavController",
+        })
+        .when("/part3/:id", {
+          templateUrl: "angular_app/modules/apa/part3.tpl.html",
+          controller: "uniNavController",
+        })
+        .when("/part4/:id", {
+          templateUrl: "angular_app/modules/apa/part4.tpl.html",
+          controller: "uniNavController",
+        })
+        .when("/part5/:id", {
+          templateUrl: "angular_app/modules/apa/part5.tpl.html",
+          controller: "uniNavController",
+        })
+        .when("/part6/:id", {
+          templateUrl: "angular_app/modules/apa/part6.tpl.html",
+          controller: "uniNavController",
+        })
+        .when("/rti", {
+          templateUrl: "angular_app/modules/rti/rti.tpl.html",
+          controller: "uniNavController",
+        })
+        .when("/brtcReport", {
+          templateUrl: "angular_app/modules/brtc/brtcReport.tpl.html",
+          /*controller: 'userRoleController'*/
+        })
+        .when("/ugAdmission/:id", {
+          templateUrl: "angular_app/modules/ugAdmission/ugAdmission.tpl.html",
+          controller: "uniNavController",
+        })
+        .when("/apa", {
+          templateUrl: "angular_app/modules/apa/apaMain.tpl.html",
+          controller: "apaController",
+        })
+        .otherwise({ redirectTo: "/" });
+      $locationProvider.hashPrefix("");
+      $qProvider.errorOnUnhandledRejections(false);
+    },
+  ]);
+
+wmApp.config(function ($mdDateLocaleProvider, $httpProvider) {
+  if (!$httpProvider.defaults.headers.get) {
+    $httpProvider.defaults.headers.get = {};
+  }
+  $httpProvider.defaults.headers.get["If-Modified-Since"] =
+    "Mon, 26 Jul 1997 05:00:00 GMT";
+  // extra
+  $httpProvider.defaults.headers.get["Cache-Control"] = "no-cache";
+  $httpProvider.defaults.headers.get["Pragma"] = "no-cache";
+  $mdDateLocaleProvider.formatDate = function (date) {
+    if (date !== null) {
+      return moment(date).format("DD-MMM-YYYY");
+    } else {
+      return null;
+    }
+  };
+});

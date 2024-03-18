@@ -1,0 +1,204 @@
+﻿
+angular.module('wmApp').controller('facultyOutsideController', [
+    '$scope', '$location', '$routeParams', 'imgUploadService', 'hNewsService', function ($scope, $location, $routeParams, imgUploadService, hNewsService) {
+        var errorFunction = function (error) {
+            console.log(error);
+        }
+        //var categoryId = parseInt($routeParams.cId);
+        var categoryId = $routeParams.cId;
+        function init() {
+            //console.log($routeParams.cId);
+            $scope.copyright = new Date();
+            $scope.currentMinute = new Date().getTime();
+            //$scope.findCategoryWise(1);
+            console.log($routeParams.cId);
+            $scope.findCategoryWise(categoryId);
+            
+
+        }
+
+        $scope.findCategoryWise = function (id) {
+            console.log(id);
+            $scope.habiburrahman = false;
+            $scope.QaziMowla = false;
+            $scope.rafiqul = false;
+            $scope.munaz = false;
+            $scope.mahfuzul = false;
+
+
+            switch (id) {
+                case "habiburrahman":
+                    $scope.habiburrahman = true;
+                break;
+                case "QaziMowla":
+                    $scope.QaziMowla = true;
+                break;
+                case "rafiqulIslam":
+                    $scope.rafiqul = true;
+                break;
+                case "munazAhmed":
+                    $scope.munaz = true;
+                break;
+                case "mahfuzulIslam":
+                    $scope.mahfuzul = true;
+                break;
+            default:
+                    $scope.habiburrahman = true;
+                break;
+
+            }
+        }
+        init();
+    }]);
+
+
+
+
+
+
+//angular.module('wmApp').controller('facultyOutsideController', [
+//    '$scope', '$location', '$routeParams', 'imgUploadService', '$mdDialog', function ($scope, $location, $routeParams, imgUploadService, $mdDialog) {
+//        var errorFunction = function (error) {
+//            console.log(error);
+//        }
+//        var categoryId = parseInt($routeParams.cId);
+
+//        function init() {
+//            //console.log($routeParams.cId);
+//            $scope.copyright = new Date();
+//            $scope.currentMinute = new Date().getTime();
+//            //$scope.findCategoryWise(1);
+//            if (categoryId > 0) {
+//                console.log($routeParams.cId);
+//                $scope.findCategoryWise(categoryId);
+//            }
+
+//        }
+
+//        $scope.findCategoryWise = function (id) {
+//            console.log(id);
+//            $scope.habiburrahman = false;
+//            $scope.QaziMowla = false;
+//            $scope.rafiqul = false;
+//            $scope.munaz = false;
+//            $scope.mahfuzul = false;
+      
+
+//            switch (id) {
+//            case 1:
+//                    $scope.habiburrahman = true;
+//                break;
+//            case 2:
+//                    $scope.QaziMowla = true;
+//                break;
+//            case 3:
+//                    $scope.rafiqul = true;
+//                break;
+//            case 4:
+//                    $scope.munaz = true;
+//                break;
+//            case 5:
+//                    $scope.mahfuzul = true;
+//                break;
+//            //default:
+//            //        $scope.habiburrahman = true;
+//            //    break;
+
+//            }
+//        }
+
+//        $scope.showAdvanced1 = function (ev) {
+//            $mdDialog.show({
+//                controller: DialogController,
+//                templateUrl: 'angular_app/modules/facultyOutside/habibur.modal.html',
+//                // Appending dialog to document.body to cover sidenav in docs app
+//                // Modal dialogs should fully cover application to prevent interaction outside of dialog
+//                parent: angular.element(document.body),
+//                targetEvent: ev,
+//                clickOutsideToClose: true,
+//                fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+//            }).then(function (answer) {
+//                $scope.status = 'You said the information was "' + answer + '".';
+//            }, function () {
+//                $scope.status = 'You cancelled the dialog.';
+//            });
+//        };
+//        $scope.showAdvanced2 = function (ev) {
+//            $mdDialog.show({
+//                controller: DialogController,
+//                templateUrl: 'angular_app/modules/facultyOutside/rafiqul.modal.html',
+//                // Appending dialog to document.body to cover sidenav in docs app
+//                // Modal dialogs should fully cover application to prevent interaction outside of dialog
+//                parent: angular.element(document.body),
+//                targetEvent: ev,
+//                clickOutsideToClose: true,
+//                fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+//            }).then(function (answer) {
+//                $scope.status = 'You said the information was "' + answer + '".';
+//            }, function () {
+//                $scope.status = 'You cancelled the dialog.';
+//            });
+//        };
+//        $scope.showAdvanced3 = function (ev) {
+//            $mdDialog.show({
+//                controller: DialogController,
+//                templateUrl: 'angular_app/modules/facultyOutside/munaz.modal.html',
+//                // Appending dialog to document.body to cover sidenav in docs app
+//                // Modal dialogs should fully cover application to prevent interaction outside of dialog
+//                parent: angular.element(document.body),
+//                targetEvent: ev,
+//                clickOutsideToClose: true,
+//                fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+//            }).then(function (answer) {
+//                $scope.status = 'You said the information was "' + answer + '".';
+//            }, function () {
+//                $scope.status = 'You cancelled the dialog.';
+//            });
+//        };
+//        $scope.showAdvanced4 = function (ev) {
+//            $mdDialog.show({
+//                controller: DialogController,
+//                templateUrl: 'angular_app/modules/facultyOutside/mahfuz.modal.html',
+//                // Appending dialog to document.body to cover sidenav in docs app
+//                // Modal dialogs should fully cover application to prevent interaction outside of dialog
+//                parent: angular.element(document.body),
+//                targetEvent: ev,
+//                clickOutsideToClose: true,
+//                fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+//            }).then(function (answer) {
+//                $scope.status = 'You said the information was "' + answer + '".';
+//            }, function () {
+//                $scope.status = 'You cancelled the dialog.';
+//            });
+//        };
+//        $scope.showAdvanced5 = function (ev) {
+//            $mdDialog.show({
+//                controller: DialogController,
+//                templateUrl: 'angular_app/modules/facultyOutside/qazi.modal.html',
+//                // Appending dialog to document.body to cover sidenav in docs app
+//                // Modal dialogs should fully cover application to prevent interaction outside of dialog
+//                parent: angular.element(document.body),
+//                targetEvent: ev,
+//                clickOutsideToClose: true,
+//                fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+//            }).then(function (answer) {
+//                $scope.status = 'You said the information was "' + answer + '".';
+//            }, function () {
+//                $scope.status = 'You cancelled the dialog.';
+//            });
+//        };
+//        function DialogController($scope, $mdDialog) {
+//            $scope.hide = function () {
+//                $mdDialog.hide();
+//            };
+
+//            $scope.cancel = function () {
+//                $mdDialog.cancel();
+//            };
+
+//            $scope.answer = function (answer) {
+//                $mdDialog.hide(answer);
+//            };
+//        }
+//        init();
+//    }]);

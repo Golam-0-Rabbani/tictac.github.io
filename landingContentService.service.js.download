@@ -1,0 +1,21 @@
+﻿servAppCl.service('landingContentService', ['$resource', '$q', 'baseService',
+    function ($resource, $q, baseService) {
+        var baseUrl1 = baseService.apiServiceUrl + 'BannerDisplay';
+        //var baseUrl1 = baseService.cacheApi;
+
+        var getAllBannerForLanding = function () {
+            var defer = $q.defer();
+            var resource = $resource(baseUrl1 + "/GetList");
+            //var resource = $resource(baseUrl1 + "banner/landing");
+            resource.get(function (response) {
+                defer.resolve(response);
+            }, function (error) {
+                return defer.reject(error);
+            });
+            return defer.promise;
+        }
+
+        return {
+            getAllBannerForLanding: getAllBannerForLanding
+        };
+    }]);

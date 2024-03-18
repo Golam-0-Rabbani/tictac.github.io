@@ -1,0 +1,40 @@
+﻿angular.module('wmApp').controller('menuController', [
+    '$scope', '$location', '$window', 'imgUploadService', 'hNewsService', 'baseService', function ($scope, $location, $window, imgUploadService, hNewsService, baseService) {
+        var errorFunction = function (error) {
+            console.log(error);
+        }
+
+        function init() {
+            $scope.InfoUrl = baseService.infoWebUrl;
+            //console.log($scope.InfoUrl);
+            $scope.copyright = new Date();
+            $scope.currentMinute = new Date().getTime();
+            $scope.currentYear = new Date();
+        }
+
+        $scope.closeFromAngular = function () {
+            closeMenu();
+        }
+        $scope.gotoLink = function (urlPart) {
+            $location.path(urlPart);
+            closeMenu();
+        }
+        $scope.gotoInfoLink = function (urlPart) {
+            var fullPath = $scope.InfoUrl + urlPart;
+            $window.open(fullPath, "_blank");
+            //$location.path(InfoUrl+);
+            closeMenu();
+        }
+        $scope.linkClicked = function (link) {
+            // your code here
+            $location.path(link);
+        };
+        init();
+    }]);
+
+function closeMenu() {
+    console.log('menu Close');
+    $('body').removeClass('mobile-nav-active');
+    $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
+    $('.mobile-nav-overly').fadeOut();
+}

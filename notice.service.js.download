@@ -1,0 +1,88 @@
+﻿servAppCl.service("noticeService", [
+    "$resource",
+    "$q",
+    "baseService",
+    function ($resource, $q, baseService) {
+      var baseUrl = baseService.apiServiceUrl;
+      var baseUrlQuery = baseService.apiServiceUrl + "NoticeQuery";
+      var cacheUrl = baseService.cacheApi;
+  
+      var getAllPaginated = function (obj) {
+        var defer = $q.defer();
+        var url = baseUrlQuery + "/LoadAllPaginated";
+        //var url = cacheUrl + "notice/archive";
+        var resource = $resource(url);
+        resource.save(
+          obj,
+          function (response) {
+            defer.resolve(response);
+          },
+          function (error) {
+            return defer.reject(error);
+          }
+        );
+        return defer.promise;
+      };
+  
+      var getDetailById = function (id) {
+        var url = baseUrlQuery + "/FindSingle";
+        var defer = $q.defer();
+        var resource = $resource(url + "?id=" + id);
+        resource.get(
+          function (response) {
+            defer.resolve(response);
+          },
+          function (error) {
+            return defer.reject(error);
+          }
+        );
+        return defer.promise;
+      };
+  
+      return {
+        getAllPaginated: getAllPaginated,
+        getDetailById: getDetailById,
+      };
+    },
+  ]);
+
+
+// servAppCl.service('noticeService', ['$resource', '$q', 'baseService',
+//     function ($resource, $q, baseService) {
+       
+//         var baseUrl = baseService.apiServiceUrl;
+//         var baseUrlQuery = baseService.apiServiceUrl + "NoticeQuery";
+
+//         var getAllPaginated = function (obj) {
+//             var defer = $q.defer();
+//             var url = baseUrlQuery + '/LoadAllPaginated';
+//             var resource = $resource(url);
+//             resource.save(obj,
+//                 function (response) {
+//                     defer.resolve(response);
+//                 },
+//                 function (error) {
+//                     return defer.reject(error);
+//                 });
+//             return defer.promise;
+//         }; 
+       
+//         var getDetailById = function (id) {
+//             var url = baseUrlQuery + '/FindSingle';
+//             var defer = $q.defer();
+//             var resource = $resource(url + '?id=' + id);
+//             resource.get(function (response) {
+//                 defer.resolve(response);
+//             }, function (error) {
+//                 return defer.reject(error);
+//             });
+//             return defer.promise;
+//         }
+
+
+//         return {
+//             getAllPaginated: getAllPaginated,
+//            getDetailById: getDetailById
+//         };
+
+//     }]);

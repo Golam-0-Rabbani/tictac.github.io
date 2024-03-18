@@ -1,0 +1,82 @@
+﻿
+
+angular.module('wmApp').controller('mainController', [
+    '$scope', '$location', 'imgUploadService', 'hNewsService', 'baseService', 'landingContentService', function ($scope, $location, imgUploadService, hNewsService, baseService, landingContentService) {
+        var errorFunction = function (error) {
+            console.log(error);
+        }
+        $scope.imgName = '37d737d9-5926-4923-9ce7-bd4c7fbcda2d_Detailed.jpg';
+        $scope.getImageSec = function (imageId, ind) {
+            $scope.image_source = "";
+            return imgUploadService.getNewsImageUrl(imageId, new Date().getTime(), ind);
+        }
+      
+        $scope.getList = function () {
+            $scope.list = [];
+            hNewsService.getAllForLanding()
+                .then(function (response) {
+                        if (response.IsSuccess) {
+                            $scope.list = response.Data;
+                           } else {
+                            console.log(response);
+                        }
+                    },
+                    errorFunction);
+        };
+        $scope.getEventList = function () {
+            $scope.elist = [];
+            hNewsService.getAllEventForLanding()
+                .then(function (response) {
+                        if (response.IsSuccess) {
+                            $scope.elist = response.Data;
+                        } else {
+                            console.log(response);
+                        }
+                    },
+                    errorFunction);
+        };
+        $scope.goToIndex= function() {
+            
+        }
+        $scope.scrollToTop = function ($var) {
+            // 'html, body' denotes the html element, to go to any other custom element, use '#elementID'
+            $('html, body').animate({
+                scrollTop: 0
+            }, 'fast'); // 'fast' is for fast animation
+        };
+
+        $scope.getAllBannerContent = function () {
+            $scope.bnContent = [];
+            landingContentService.getAllBannerForLanding()
+                .then(function (response) {
+                    if (response.IsSuccess) {
+                        //console.log(response.Data);
+                        $scope.bnContent = response.Data;
+                    } else {
+                        console.log(response);
+                    }
+                }, errorFunction);
+        }
+
+        function init() {
+            $scope.InfoUrl = baseService.infoWebUrl;
+            //console.log($scope.InfoUrl);
+            $scope.copyright = new Date();
+            $scope.currentMinute = new Date().getTime();
+            $scope.pageName = 'Home';
+            $scope.getList();
+            $scope.getEventList();
+            $scope.getAllBannerContent();
+        }
+        $scope.linkClicked = function (link) {
+            // your code here
+            $location.path(link);
+        };
+        init();
+    }]).filter('toSec', function ($filter) {
+    return function (input) {
+        var result = new Date(input).getTime();
+        return result || '';
+    };
+});
+

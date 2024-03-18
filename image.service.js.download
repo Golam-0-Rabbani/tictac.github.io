@@ -1,0 +1,51 @@
+﻿
+
+servAppCl.service('imgUploadService', ['$http', 'baseService',
+    function ($http, baseService) {
+
+
+        var imageUploadUrl = baseService.apiServiceUrl + "ProfileImageService";
+        var newsImageUrl = baseService.apiServiceUrl + "FileServiceNews";
+
+
+        var getImageUrl = function (id, type, stamp) {
+            return imageUploadUrl + "/LoadImage?imagePath=" + id + "&type=" + type + "&stamp=" + stamp;
+        }
+        var getNewsImageUrl = function (id, type, stamp) {
+            return newsImageUrl + "/LoadImage?imagePath=" + id + "&type=" + type + "&stamp=" + stamp;
+        }
+
+        var getEmptyImageUrl = function () {
+            return imageUploadUrl + "/EmptyImage?imagePath=" + "" + "&type=" + 1 + "&stamp=" + 0;
+        }
+        var getProfileImageUrl = function (id, type, stamp) {
+            return imageUploadUrl + "/LoadImage?imagePath=" + id + "&type=" + type + "&stamp=" + stamp;
+        }
+
+        var uploadImageFile = function (meetingId, file, type) {
+            var fd = new FormData();
+            console.log('File Desc: ' + file);
+            fd.append('file', file);
+            fd.append('serial', meetingId);
+            fd.append('type', type);
+            return $http({
+                    method: 'Post', url: imageUploadUrl + "/PostFile", data: fd, transformRequest: angular.identity,
+                    headers: { 'Content-Type': undefined }
+                }).
+                then(function (response) {
+                    return response;
+                });
+        }
+
+
+
+        return {
+            uploadImageFile: uploadImageFile,
+            getNewsImageUrl: getNewsImageUrl,
+            getImageUrl: getImageUrl,
+            getProfileImageUrl: getProfileImageUrl,
+            getEmptyImageUrl: getEmptyImageUrl
+
+        }
+
+    }]);

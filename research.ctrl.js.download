@@ -1,0 +1,77 @@
+﻿
+angular.module('wmApp').controller('researchController', [
+    '$scope', '$location', '$routeParams', 'imgUploadService', 'researchService', 'baseService', function ($scope, $location, $routeParams, imgUploadService, researchService, baseService) {
+        var errorFunction = function (error) {
+            console.log(error);
+        }
+        var categoryId = parseInt($routeParams.cId);
+
+        function init() {
+            $scope.baseApiUrl = baseService.mainServiceUrl;
+            $scope.copyright = new Date();
+            $scope.currentMinute = new Date().getTime();
+
+            if (categoryId > 0) {
+                $scope.findCategoryWise(categoryId);
+            }
+            $scope.getMouList();
+        }
+
+        $scope.findCategoryWise = function (id) { 
+            console.log(id);
+            $scope.overview = false;
+            $scope.resehigh = false;
+            $scope.facuprof = false;
+            $scope.resareas = false;
+            $scope.rise = false;
+            $scope.inscent = false;
+            $scope.partnership = false;
+            $scope.mou = false;
+
+
+            switch (id) {
+                case 1:
+                    $scope.overview = true;
+                    break;
+                case 2:
+                    $scope.resehigh = true;
+                    break;
+                case 3:
+                    $scope.facuprof = true;
+                    break;
+                case 4:
+                    $scope.resareas = true;
+                    break;
+                case 5:
+                    $scope.rise = true;
+                    break;
+                case 6:
+                    $scope.inscent = true;
+                    break;
+                case 7:
+                    $scope.partnership = true;
+                    break;
+                case 8:
+                    $scope.mou = true;
+                    break;
+                default:
+                    $scope.overview = true;
+                    break;
+
+            }
+        }
+        $scope.getMouList = function () {
+            $scope.moulist = [];
+            researchService.getMouList()
+                .then(function (response) {
+                    if (response.IsSuccess) {
+                        $scope.moulist = response.Data.FileList;
+                    } else {
+                        console.log(response);
+                    }
+                },
+                    errorFunction);
+        };
+
+        init();
+    }]);

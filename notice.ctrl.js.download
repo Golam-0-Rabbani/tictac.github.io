@@ -1,0 +1,176 @@
+﻿angular.module('wmApp').controller('noticeController', [
+    '$scope', '$routeParams', 'noticeService', '$location', function ($scope, $routeParams, noticeService, $location) {
+        var errorFunction = function (error) {
+            console.log(error);
+        }
+        var paramId = $routeParams.id;
+        $scope.noticeList = [];
+        $scope.getDateFormat = function (timestamp) {
+            return new Date(timestamp);
+        }
+        function init() {
+            
+            var pageName = $routeParams.title;
+            /*$scope.showNoticeGroup = true;*/
+            $scope.title = pageName;
+            $scope.CategoryTitle = "";
+            $scope.pageObj = {
+                PageNo: 0,
+                PageSize: 10
+            };
+            $scope.requestObj = {
+                KeyWord: '',
+                CategoryId: paramId>0?paramId:0,
+                SortByEntryDate: true,
+                IsAscending: true,
+                PageObj: $scope.pageObj
+            };
+            //if (paramId > 0) {
+
+            //}
+            //$scope.filterObj = {
+            //    categoryId: paramId, keyWord: ''
+            //}
+            //$scope.findCategoryWise("");
+            $scope.loadPaginatedPrimary();
+        }
+        $scope.reload = function () {
+            init();
+        }
+        $scope.findCategoryWise = function (categoryId) {
+            //if ($scope.requestObj.CategoryId === undefined) {
+            //    $scope.requestObj.CategoryId = 1;
+            //    //$scope.CategoryTitle = "General Notice";
+            //} else {
+            //    //$scope.requestObj.CategoryId = categoryId;
+            //    //$scope.CategoryTitle = cTitle;
+            //}
+            if ($scope.requestObj.CategoryId === undefined) {
+                $scope.requestObj.CategoryId = 0;
+            } else {
+                $scope.requestObj.CategoryId = categoryId;
+                $scope.pageObj = {
+                    PageNo: 0,
+                    PageSize: 10
+                };
+            }
+            $scope.loadPaginatedPrimary();
+        }
+        $scope.pageSizeSet = function () {
+            var pagesize = $scope.pageObj.PageSize;
+            $scope.pageObj = { PageNo: 0, PageSize: pagesize, TotalPages: 0, TotalCount: 0 };
+            $scope.loadPaginatedPrimary();
+        };
+        $scope.navPage = function (pageVal) {
+
+            var pageMove = $scope.pageObj.PageNo + pageVal;
+            var totalPage = $scope.pageObj.TotalPages;
+            if (totalPage >= pageMove + 1 && pageMove >= 0) {
+
+                var pagesize = $scope.pageObj.PageSize;
+                $scope.pageObj = { PageNo: pageMove, PageSize: pagesize, TotalPages: 0, TotalCount: 0 };
+                $scope.loadPaginatedPrimary();
+            }
+        };
+        $scope.loadPaginatedPrimary = function () {
+            $scope.requestObj.PageObj = $scope.pageObj;
+            $scope.getAllPaginated();
+        };
+        $scope.getAllPaginated = function () {
+            $scope.noticeList = [];
+            noticeService.getAllPaginated($scope.requestObj)
+                .then(function (response) {
+                    if (response.IsSuccess) {
+                        $scope.noticeList = response.Data;
+                        $scope.listLength = response.Data.length;
+                        $scope.pageObj = null;
+                        $scope.pageObj = response.Pagination;
+                    } else {
+                        console.log(response);
+                    }
+                },
+                    errorFunction);
+        };
+        //$scope.pageSizeSet = function () {
+        //    var pageMove = $scope.pageObj.PageNo;
+        //    var pagesize = $scope.pageObj.PageSize;
+        //    $scope.pageObj = { PageNo: 0, PageSize: pagesize, TotalPages: 0, TotalCount: 0 };
+        //    $scope.getAllContentDetail();
+        //}
+        //$scope.getAllContentDetail = function () {
+        //    if ($scope.filterObj.categoryId === undefined) {
+        //        $scope.filterObj.categoryId = 1;
+        //        $scope.CategoryTitle = "General Notice";
+        //    }
+        //    noticeService.getAllContentDetails($scope.pageObj, $scope.filterObj)
+        //        .then(function (response) {
+        //            $scope.contentDetails = [];
+        //            if (response.IsSuccess) {
+        //                $scope.pageObj = null;
+        //                $scope.pageObj = response.Pagination;
+        //                $scope.noticeList = response.Data;
+        //                console.log($scope.noticeList);
+        //            } else {
+        //                console.log(response);
+        //            }
+
+        //        }, errorFunction);
+        //}
+        //$scope.navPage = function (pageVal) {
+        //    var pageMove = $scope.pageObj.PageNo + pageVal;
+        //    var pagesize = $scope.pageObj.PageSize;
+        //    $scope.pageObj = { PageNo: pageMove, PageSize: pagesize, TotalPages: 0, TotalCount: 0 };
+
+        //    $scope.getAllContentDetail();
+        //}
+        $scope.resetFilter = function () {
+            init();
+            $scope.getAllContentDetail();
+
+        }
+        $scope.gotoNoticeDetail = function (id) {
+            console.log(id);
+            $location.path('/noticeDetail/' + id);
+        }
+
+        init();
+    }]);
+
+
+angular.module('wmApp').controller('noticeDetailController', [
+    '$scope', '$routeParams', 'noticeService', '$location', function ($scope, $routeParams, noticeService, $location) {
+        var errorFunction = function (error) {
+            console.log(error);
+        }
+        var paramId = $routeParams.id;
+        $scope.noticeObj = {};
+        $scope.getDateFormat = function (timestamp) {
+            return new Date(timestamp);
+        }
+        function init() {
+            console.log(paramId);
+            $scope.getSingleNotice();
+        }
+
+        $scope.getSingleNotice = function () {
+            $scope.noticeObj = {};
+            noticeService.getDetailById(paramId)
+                .then(function (response) {
+                    if (response.IsSuccess) {
+                        $scope.noticeObj = response.Data;
+                    } else {
+                        console.log(response);
+                    }
+                },
+                    errorFunction);
+        };
+
+
+        init();
+    }]);
+
+
+
+
+
+

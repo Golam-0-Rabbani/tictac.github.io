@@ -1,0 +1,26 @@
+﻿
+servAppCl.service('researchService', ['$resource', '$q', 'baseService',
+    function ($resource, $q, baseService) {
+        var baseUrl = baseService.apiServiceUrl + 'OtherQuery';
+       
+        var getMouList = function () {
+            var defer = $q.defer();
+            var url = baseUrl + '/LoadMouList';
+            var resource = $resource(url);
+            resource.get(function (response) {
+                defer.resolve(response);
+            },
+                function (error) {
+                    return defer.reject(error);
+                });
+            return defer.promise;
+        };
+        
+        return {
+            getMouList: getMouList,
+           
+
+        };
+
+    }]);
+

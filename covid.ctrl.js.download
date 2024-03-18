@@ -1,0 +1,46 @@
+﻿
+angular.module('wmApp').controller('covidController', [
+    '$scope', '$location', '$routeParams', 'imgUploadService', 'hNewsService', function ($scope, $location, $routeParams, imgUploadService, hNewsService) {
+        var errorFunction = function (error) {
+            console.log(error);
+        }
+        var categoryId = parseInt($routeParams.cId);
+
+        function init() {
+            //console.log($routeParams.cId);
+            $scope.copyright = new Date();
+            $scope.currentMinute = new Date().getTime();
+            //$scope.findCategoryWise(1);
+            if (categoryId > 0) {
+                console.log($routeParams.cId);
+                $scope.findCategoryWise(categoryId);
+            }
+
+        }
+
+        $scope.findCategoryWise = function (id) {
+            console.log(id);
+            $scope.vcMessage = false;
+            $scope.academic = false;
+            $scope.health = false;
+
+
+            switch (id) {
+                case 1:
+                    $scope.vcMessage = true;
+                    break;
+                case 2:
+                    $scope.academic = true;
+                    break;
+                case 3:
+                    $scope.health = true;
+                    break;
+               
+                default:
+                    $scope.academic = true;
+                    break;
+
+            }
+        }
+        init();
+    }]);

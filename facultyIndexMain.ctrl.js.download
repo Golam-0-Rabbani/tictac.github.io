@@ -1,0 +1,491 @@
+﻿angular
+  .module("wmApp")
+  .controller("facultyIndexController", [
+    "$scope",
+    "$routeParams",
+    "$location",
+    "facultyIndexService",
+    "imgUploadService",
+    function (
+      $scope,
+      $routeParams,
+      $location,
+      facultyIndexService,
+      imgUploadService
+    ) {
+      var errorFunction = function (error) {
+        console.log(error);
+      };
+
+      $scope.pageName = "Faculty Index";
+
+      function init() {
+        $scope.alphabetList = [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "I",
+          "J",
+          "K",
+          "L",
+          "M",
+          "N",
+          "O",
+          "P",
+          "Q",
+          "R",
+          "S",
+          "T",
+          "U",
+          "V",
+          "W",
+          "X",
+          "Y",
+          "Z",
+        ];
+        $scope.peopleList = [];
+        $scope.deptOfficeList = [];
+        $scope.facultyList = [];
+        $scope.pageObj = {
+          PageNo: 0,
+          PageSize: 26,
+        };
+        $scope.requestObj = {
+          DepartmentId: null,
+          ResearchAreas: "",
+          AlphabeticalKeyword: "",
+          Keyword: "",
+          SortByEntryDate: true,
+          IsAscending: true,
+          PageObj: $scope.pageObj,
+        };
+        $scope.loadPaginatedPrimary();
+      }
+      $scope.pageSizeSet = function () {
+        var pagesize = $scope.pageObj.PageSize;
+        $scope.pageObj = {
+          PageNo: 0,
+          PageSize: pagesize,
+          TotalPages: 0,
+          TotalCount: 0,
+        };
+        $scope.loadPaginatedPrimary();
+      };
+      $scope.navPage = function (pageVal) {
+        console.log(pageVal);
+        var pageMove = $scope.pageObj.PageNo + pageVal;
+        var totalPage = $scope.pageObj.TotalPages;
+        if (totalPage >= pageMove + 1 && pageMove >= 0) {
+          console.log(pageMove + "/" + totalPage);
+          var pagesize = $scope.pageObj.PageSize;
+          $scope.pageObj = {
+            PageNo: pageMove,
+            PageSize: pagesize,
+            TotalPages: 0,
+            TotalCount: 0,
+          };
+          $scope.loadPaginatedPrimary();
+        }
+      };
+      $scope.scrollToTop = function ($var) {
+        $("html, body").animate(
+          {
+            scrollTop: 0,
+          },
+          "fast"
+        );
+      };
+      $scope.loadByAlphabets = function (key) {
+        $scope.requestObj.AlphabeticalKeyword = key;
+        $scope.loadPaginatedPrimary();
+      };
+      $scope.loadPaginatedPrimary = function () {
+        $scope.requestObj.PageObj = $scope.pageObj;
+        $scope.getAllPaginated();
+      };
+      $scope.getAllPaginated = function () {
+        $scope.facultyList = [];
+        facultyIndexService
+          .getAllPaginated($scope.requestObj)
+          .then(function (response) {
+            if (response.IsSuccess) {
+              $scope.facultyList = response.Data;
+              $scope.listLength = response.Data.length;
+              $scope.pageObj = null;
+              $scope.pageObj = response.Pagination;
+            } else {
+              console.log(response);
+            }
+          }, errorFunction);
+      };
+
+      $scope.clearSearch = function () {
+        init();
+        $scope.loadAllFaculty();
+        $scope.loadAllDeptOffice();
+      };
+
+      //$scope.loadAllFaculty = function () {
+      //    $scope.facultyList = [];
+      //    facultyIndexService.getAllFaculty()
+      //        .then(function (response) {
+      //            if (response.IsSuccess) {
+      //                $scope.facultyList = response.Data;
+
+      //            } else {
+      //                console.log(response);
+      //            }
+      //        },
+      //            errorFunction);
+      //};
+      $scope.loadAllDeptOffice = function () {
+        $scope.deptOfficeList = [];
+        facultyIndexService.getAllDepInst().then(function (response) {
+          if (response.IsSuccess) {
+            $scope.deptOfficeList = response.Data;
+          } else {
+            console.log(response);
+          }
+        }, errorFunction);
+      };
+
+      $scope.getDatails = function (id) {
+        $location.path("/profile/" + id);
+      };
+      $scope.getRandomSpan = function () {
+        return Math.floor(Math.random() * 6 + 1);
+      };
+      $scope.defaultImage = "";
+
+      $scope.getImage = function (id, index) {
+        $scope.defaultImage = imgUploadService.getProfileImageUrl(id, index, 0);
+        return $scope.defaultImage;
+      };
+
+      init();
+      $scope.loadAllDeptOffice();
+    },
+  ])
+  .filter("sanitize", [
+    "$sce",
+    function ($sce) {
+      return function (htmlCode) {
+        return $sce.trustAsHtml(htmlCode);
+      };
+    },
+  ]);
+angular
+  .module("wmApp")
+  .controller("facultySingleController", [
+    "$scope",
+    "$routeParams",
+    "$location",
+    "facultyIndexService",
+    "imgUploadService",
+    "$mdDialog",
+    "$route",
+    "$anchorScroll",
+    function (
+      $scope,
+      $routeParams,
+      $location,
+      facultyIndexService,
+      imgUploadService,
+      $mdDialog,
+      $route,
+      $anchorScroll
+    ) {
+      var errorFunction = function (error) {
+        if (error.status === 401) {
+          alert(error.statusText);
+        }
+        console.log(error);
+      };
+      var id = $routeParams.id;
+      $scope.pageName = "Personal Information";
+
+      function init() {
+        $scope.hideHiddenpublications = true;
+        $scope.singleObj = {};
+        if (id !== 0) {
+          $scope.getSingle(id);
+        }
+        $scope.rAreas = [];
+        $scope.publicationlist = [];
+        $scope.publicationHiddenlist = [];
+      }
+
+      $scope.scrollToTop = function ($var) {
+        $("html, body").animate(
+          {
+            scrollTop: 0,
+          },
+          "fast"
+        );
+      };
+      $scope.showHiddenPublications = function () {
+        $scope.hideHiddenpublications = $scope.hideHiddenpublications
+          ? false
+          : true;
+      };
+      $scope.getSingle = function (id) {
+        $scope.publicationlist = [];
+        $scope.publicationHiddenlist = [];
+        $scope.singleObj = {};
+        facultyIndexService.getSingle(id).then(function (response) {
+          if (response.IsSuccess) {
+            $scope.singleObj = response.Data;
+
+            $scope.publicationlist = $scope.processPublications(
+              $scope.singleObj.ProfilePublications
+            );
+            $scope.publicationHiddenlist = $scope.processPublications(
+              $scope.singleObj.ProfileHiddenPublications
+            );
+            console.log($scope.publicationHiddenlist);
+            //console.log($scope.publicationlist);
+            $scope.reData();
+            $scope.getImage(response.Data.ImagePath);
+          } else {
+            console.log(response);
+          }
+        }, errorFunction);
+      };
+      //$scope.loadAllPublications = function () {
+      //    $scope.allPublications = [];
+      //    $scope.allHiddenPublications = [];
+      //    facultyIndexService.loadAllPublications(id)
+      //        .then(function (response) {
+      //                if (response.IsSuccess) {
+      //                    $scope.allPublications = response.Data;
+      //                    $scope.processPublicationsSec();
+      //                  } else {
+      //                    console.log(response);
+      //                }
+      //            },
+      //            errorFunction);
+      //};
+      //$scope.showHiddenPublications= function() {
+      //    $scope.allHiddenPublications = [];
+      //    facultyIndexService.loadAllPublications(id)
+      //        .then(function (response) {
+      //                if (response.IsSuccess) {
+      //                    $scope.allPublications = response.Data;
+
+      //                    $scope.processPublicationsSec();
+      //                } else {
+      //                    console.log(response);
+      //                }
+      //            },
+      //            errorFunction);
+      //}
+      $scope.reData = function () {
+        if ($scope.singleObj.ResearchAreas != null) {
+          $scope.rAreas = $scope.singleObj.ResearchAreas.split(";");
+        }
+      };
+      $scope.getImage = function (id) {
+        return imgUploadService.getProfileImageUrl(id, new Date().getTime(), 0);
+      };
+
+      $scope.processPublications = function (pubList) {
+        var parsedPublications = [];
+        var publications = [];
+        publications = pubList;
+        if (publications != null) {
+          try {
+            angular.forEach(publications, function (value, key) {
+              var forDispaly = $scope.parseForDispaly(value.PublicationData);
+              var newPublicationObj = {
+                data: forDispaly,
+                type: value.Type,
+                rawData: value.PublicationData,
+                year: forDispaly.year,
+                hideData: true,
+              };
+              parsedPublications.push(newPublicationObj);
+            });
+            return parsedPublications;
+          } catch (er) {
+            console.log(er);
+            throw er;
+          } finally {
+          }
+        }
+      };
+      $scope.parseForDispaly = function (dataFp) {
+        var list = bibtexParse.toJSON(dataFp);
+        // console.log(list);
+        var singleObj = list[0];
+        //var parsedData = $scope.displayForData(singleObj.entryTags);
+        //return parsedData;
+        return singleObj.entryTags;
+      };
+      $scope.parseForDispalySec = function (dataFp) {
+        var list = bibtexParse.toJSON(dataFp);
+        var singleObj = list[0];
+        var parsedData = $scope.displayForData(singleObj.entryTags);
+        return parsedData;
+      };
+      $scope.displayForData = function (obj) {
+        var author = obj.author === undefined ? "" : obj.author;
+        var title = obj.title === undefined ? "" : obj.title;
+        var year = obj.year === undefined ? "" : obj.year;
+        var volume = obj.volume === undefined ? "" : obj.volume;
+        var pages = obj.pages === undefined ? "" : obj.pages;
+        var booktitle = obj.booktitle === undefined ? "" : obj.booktitle;
+        var pubObj = {
+          author: author,
+          title: title,
+          year: year,
+          volume: volume,
+          pages: pages,
+          booktitle: booktitle,
+        };
+        return pubObj;
+      };
+
+      $scope.showAlert = function (ev) {
+        $mdDialog.show(
+          $mdDialog
+            .alert()
+            .clickOutsideToClose(true)
+            .title("This is an alert title")
+            .textContent("You can specify some description text in here.")
+            .ariaLabel("Alert Dialog Demo")
+            .ok("Got it!")
+            .targetEvent(ev)
+        );
+      };
+
+      function DialogController($scope, $mdDialog) {
+        $scope.hide = function () {
+          $mdDialog.hide();
+        };
+
+        $scope.cancel = function () {
+          $mdDialog.cancel();
+        };
+
+        $scope.answer = function (answer) {
+          $mdDialog.hide(answer);
+        };
+      }
+      init();
+    },
+  ])
+  .filter("sanitize", [
+    "$sce",
+    function ($sce) {
+      return function (htmlCode) {
+        return $sce.trustAsHtml(htmlCode);
+      };
+    },
+  ])
+  .filter("replaceX", [
+    function () {
+      return function (input, from, to) {
+        if (input === undefined) {
+          return;
+        }
+
+        var regex = new RegExp(from, "g");
+        return input.replace(regex, to);
+      };
+    },
+  ])
+  .filter("replaceY", [
+    function () {
+      return function (input) {
+        var dict = { "{": "", "}": "" };
+
+        var re = new RegExp(`[${Object.keys(dict).join("")}]`, "g");
+        if (input === undefined) {
+          return;
+        }
+        return input.replace(re, (m) => dict[m]);
+        //var replaceChars = { "#": "", "_": " " };
+        //string.replace(/#|_/g, function(match) {
+        //     return replaceChars[match];
+        //});
+      };
+    },
+  ]);
+
+servAppCl.service("facultyIndexService", [
+  "$resource",
+  "$q",
+  "baseService",
+  function ($resource, $q, baseService) {
+    var baseUrl = baseService.apiServiceUrl + "FacultyProfileFront";
+
+    var getAllPaginated = function (obj) {
+      var defer = $q.defer();
+      var url = baseUrl + "/LoadAllPaginated";
+      var resource = $resource(url);
+      resource.save(
+        obj,
+        function (response) {
+          defer.resolve(response);
+        },
+        function (error) {
+          return defer.reject(error);
+        }
+      );
+      return defer.promise;
+    };
+    var getAllDepInst = function () {
+      var defer = $q.defer();
+      var resource = $resource(baseUrl + "/LoadDeptInst");
+      resource.get(
+        function (response) {
+          defer.resolve(response);
+        },
+        function (error) {
+          return defer.reject(error);
+        }
+      );
+      return defer.promise;
+    };
+    var getSingle = function (id) {
+      var defer = $q.defer();
+      var url = baseUrl + "/GetSingleProfiles";
+      var resource = $resource(url + "?id=" + id);
+      resource.get(
+        function (response) {
+          defer.resolve(response);
+        },
+        function (error) {
+          return defer.reject(error);
+        }
+      );
+      return defer.promise;
+    };
+    var loadAllPublications = function (id) {
+      var defer = $q.defer();
+      var url = baseUrl + "/LoadAllPublications";
+      var resource = $resource(url + "?id=" + id);
+      resource.get(
+        function (response) {
+          defer.resolve(response);
+        },
+        function (error) {
+          return defer.reject(error);
+        }
+      );
+      return defer.promise;
+    };
+
+    return {
+      getAllPaginated: getAllPaginated,
+      getAllDepInst: getAllDepInst,
+      getSingle: getSingle,
+      loadAllPublications: loadAllPublications,
+    };
+  },
+]);

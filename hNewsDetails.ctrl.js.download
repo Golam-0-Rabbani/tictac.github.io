@@ -1,0 +1,51 @@
+﻿
+
+angular.module('wmApp').controller('hHewsDetailsController', [
+    '$scope', '$location', '$routeParams', 'imgUploadService', 'hNewsService', function ($scope, $location, $routeParams, imgUploadService, hNewsService) {
+        var errorFunction = function (error) {
+            console.log(error);
+        }
+        var newsId = $routeParams.newsId;
+        $scope.imgName = '37d737d9-5926-4923-9ce7-bd4c7fbcda2d_Detailed.jpg';
+
+        $scope.getImageSec = function (imageId, ixd) {
+            $scope.image_source = "";
+            //return imgUploadService.getNewsImageUrl(imageId, new Date().getTime(), ixd);
+            if (imageId != undefined && ixd!=null) {
+                return imgUploadService.getNewsImageUrl(imageId, ixd, 0);
+            }
+           
+        }
+
+
+        function init() {
+            $scope.copyright = new Date();
+            $scope.currentMinute = new Date().getTime();
+            $scope.pageName = 'News Index';
+           
+            $scope.getDetails();
+
+        }
+        $scope.pageSizeSet = function () {
+            var pagesize = $scope.pageObj.PageSize;
+            $scope.pageObj = { PageNo: 0, PageSize: pagesize, TotalPages: 0, TotalCount: 0 };
+            $scope.loadPaginatedPrimary();
+        };
+
+      
+        $scope.getDetails = function () {
+            $scope.detailObj = {};
+            hNewsService.getDetails(newsId)
+                .then(function (response) {
+                    if (response.IsSuccess) {
+                        $scope.detailObj = response.Data;
+                       
+                    } else {
+                        console.log(response);
+                    }
+                },
+                    errorFunction);
+        };
+      
+        init();
+    }]);

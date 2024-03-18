@@ -1,0 +1,67 @@
+﻿angular.module('wmApp').controller('galleryController', [
+    '$scope', '$timeout', '$location', '$routeParams', 'imgUploadService', '$sce', function ($scope, $timeout, $location, $routeParams, imgUploadService, $sce) {
+        var errorFunction = function (error) {
+            console.log(error);
+        }
+
+        function init() {
+            //$scope.slideShowController();
+            $scope.CarouselDemoCtrl();
+        }
+
+        $scope.myInterval = 3000;
+        $scope.CarouselDemoCtrl = function () {
+            //$scope.dataArray = [
+            //    {
+            //        image: 'https://images.unsplash.com/photo-1557655526-c97079fca862?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60'
+            //    },
+            //    {
+            //        image: 'https://images.unsplash.com/photo-1554457946-28a62c032b8b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60'
+            //    },
+            //    {
+            //        image: 'https://images.unsplash.com/photo-1545998316-3c42f69e22f4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60'
+            //    },
+            //    {
+            //        image: 'https://images.unsplash.com/photo-1555447631-7fda3d923599?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60'
+            //    }
+            //];
+            $scope.dataArray = [
+                {
+                    image: 'assets/img/gallery/a (1).jpeg'
+                },
+                {
+                    image: 'assets/img/gallery/a (2).jpeg'
+                },
+                {
+                    image: 'assets/img/gallery/a (3).jpeg'
+                },
+                {
+                    image: 'assets/img/gallery/a (4).jpeg'
+                },
+                {
+                    image: 'assets/img/gallery/a (5).jpeg'
+                },
+                {
+                    image: 'assets/img/gallery/a (6).jpeg'
+                },
+                {
+                    image: 'assets/img/gallery/a (7).jpeg'
+                },
+                {
+                    image: 'assets/img/gallery/a (8).jpeg'
+                },
+                 {
+                    image: 'assets/img/gallery/a (9).jpeg'
+                },
+                {
+                    image: 'assets/img/gallery/a (10).jpeg'
+                },
+                {
+                    image: 'assets/img/gallery/a (11).jpeg'
+                }
+
+            ];
+        }
+
+        init();
+    }]);

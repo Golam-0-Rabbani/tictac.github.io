@@ -1,0 +1,25 @@
+﻿servAppCl.filter("sanitize", ['$sce', function ($sce) {
+        return function (htmlCode) {
+            return $sce.trustAsHtml(htmlCode);
+        }
+}])
+
+servAppCl.filter('replace', [function () {
+    return function (input, from, to) {
+
+        if (input === undefined) {
+            return;
+        }
+
+        var regex = new RegExp(from, 'g');
+        return input.replace(regex, to);
+
+    };
+}]);
+
+servAppCl.filter('highlightFilter', $sce =>
+    function (element, searchInput) {
+        element = element.replace(new RegExp(`(${searchInput})`, 'gi'),
+            '<span class="highlighted">$&</span>');
+        return $sce.trustAsHtml(element);
+    });

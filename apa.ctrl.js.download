@@ -1,0 +1,109 @@
+﻿angular.module("wmApp").controller("apa2Controller", [
+  "$scope",
+  "$sce",
+  function ($scope, $sce) {
+    function init() {
+      $scope.LoadObjStatSecondList();
+    }
+    $scope.LoadObjStatSecondList = function () {
+      $scope.StatSecondList = [
+        {
+          name: "নৈতিকতা কমিটির ২য় ত্রৈমাসিক সভা ২২-২৩",
+          link: $scope.makeLink("1SHxW10pY-7N5jkrnpqhouKwKNKdQywh2"),
+        },
+        {
+          name: "অংশীজনের অংশগ্রহণে ২য় ত্রৈমাসিক সভা ২২-২৩",
+          link: $scope.makeLink("1RJMuyR0AoQZxCf1nIIAeIPh0QnJ1Irov"),
+        },
+        {
+          name: "নৈতিকতা কমিটির ৩য় ত্রৈমাসিক সভা ২২-২৩",
+          link: $scope.makeLink("1H8s_dEtAlPP_r5KWPw0Fa3CY5pfiqL2F"),
+        },
+        {
+          name: "অংশীজনের অংশগ্রহণে ৩য় ত্রৈমাসিক সভা ২২-২৩",
+          link: $scope.makeLink("1ugwFZOIiMwP9WB9Blo483F3keY73FQYN"),
+        },
+        {
+          name: "নৈতিকতা কমিটির ৪র্থ ত্রৈমাসিক সভা ২২-২৩",
+          link: $scope.makeLink("1reaiDSeuwLQhIBkXEmecSRw8Vssv5P8N"),
+        },
+
+        {
+          name: "অংশীজনের অংশগ্রহণে ২০২২-২০২৩-১ম ত্রৈমাসিক সভার কার্যবিবরনী ",
+          link: $scope.makeLink("1vSTPgvapiHsZNukfqR2r0diIlbA61P2q"),
+        },
+        {
+          name: "অংশীজনের অংশগ্রহণে ২০২২-২০২৩-১ম ত্রৈমাসিক সভার নোটিশ ",
+          link: $scope.makeLink("1N23jGfcCIqLdCE2qfe0VHjmaj-jh_FLc"),
+        },
+        {
+          name: "নৈতিকতা কমিটি ২০২২-২০২৩ এর ১ম ত্রৈমাসিক সভার কার্যবিবরণী",
+          link: $scope.makeLink("1T1939pKf4Dh-C_Qvivq__mjU1nGT9Km8"),
+        },
+        {
+          name: "নৈতিকতা কমিটি ২০২২-২০২৩ এর ১ম ত্রৈমাসিক সভার নোটিশ",
+          link: $scope.makeLink("1oHNT3oEncncUXpoz5jN9N9ZA_8C5KDkT"),
+        },
+
+        {
+          name: "উন্নত কর্ম পরিবেশ রিপোর্ট ২৫.০৪.২০২২ ",
+          link: $scope.makeLink("1uB2WEfJbGRqOVXcYmCOHiW4fCyOCnfrh"),
+        },
+        {
+          name: "নৈতিকতা কমিটির ৪র্থ ত্রৈমাসিক সভা ২১-২২ ",
+          link: $scope.makeLink("1UGWlzfuhrT_eHqI-xXDVUksVkh-mOVbf"),
+        },
+        {
+          name: "নৈতিকতা কমিটির ৪র্থ ত্রৈমাসিক সভা ২১-২২ এর কার্যবিবরনী",
+          link: $scope.makeLink("1LnymKAELSxQJxzVLHPE1GcgvdqVfPHwD"),
+        },
+        {
+          name: "দাপ্তরিক কাজে স্বচ্ছতা ও জবাবদিহিতা বিষয়ক সভা ২১.০৬.২০২২",
+          link: $scope.makeLink("1LWiB2H0Pje8W0s1KJT53VfjIgFBHHmt8"),
+        },
+        {
+          name: "দাপ্তরিক কাজে স্বচ্ছতা ও জবাবদিহিতা বিষয়ক সভা ২১.০৬.২০২২ এর কার্যবিবরনী",
+          link: $scope.makeLink("1zFIdfnCKMX0Fiw8nn9OvkB75Wt4PxBET"),
+        },
+        {
+          name: "বুয়েটে সুশাসন প্রতিষ্ঠার নিমিত্তে অংশীজনের অংশগ্রহণে অনুষ্ঠিতব্য ৪র্থ ত্রৈমাসিক সভা",
+          link: $scope.makeLink("1ax9SuneGnch_kcJgtzmQQPzQFiS2hotU"),
+        },
+        {
+          name: "বুয়েটে সুশাসন প্রতিষ্ঠার নিমিত্তে অংশীজনের অংশগ্রহণে অনুষ্ঠিতব্য ৪র্থ ত্রৈমাসিক সভার কার্যবিবরনী",
+          link: $scope.makeLink("1oWCxzpZMpwkikMyPKu5uCDUTKecQQQWE"),
+        },
+
+        {
+          name: "নৈতিকতা কমিটির ৩য় ত্রৈমাসিক সভা ২১-২২",
+          link: $scope.makeLink("1YiT_P9CNasb_lcWEYiweWqrCANPruePn"),
+        },
+        {
+          name: "নৈতিকতা কমিটির ৩য় ত্রৈমাসিক সভা ২১-২২ এর কার্যবিবরনী",
+          link: $scope.makeLink("1KXmXzsCjTKMRfabR4SwWa15cDF2qIIzm"),
+        },
+        {
+          name: "সুশাসন প্রতিষ্ঠার নিমিত্তে অংশীজনের অংশগ্রহণে সভা 29.03.22",
+          link: $scope.makeLink("1kkk7n-sxKfGphAfcjGo_qeP5kqAQg_W3"),
+        },
+        {
+          name: "সুশাসন প্রতিষ্ঠার নিমিত্তে অংশীজনের অংশগ্রহণে সভার কার্যবিবরনী 29.03.22",
+          link: $scope.makeLink("1D4ipvA8aVNHaB9d-W28xx-mPves5FNhL"),
+        },
+        {
+          name: "শিক্ষক শিক্ষার্থী কর্মকর্তা ও কর্মচারীদের অংশগ্রহণে সভা ০৩.০৪.২২",
+          link: $scope.makeLink("1EibKH5K5_hJlsUdjr_hm5XF4mEK9RSbD"),
+        },
+      ];
+    };
+
+    $scope.makeLink = function (src) {
+      var fullUrl =
+        "https://docs.google.com/viewer?srcid=" +
+        src +
+        "&pid=explorer&efh=false&a=v&chrome=false&embedded=true";
+      return $sce.trustAsResourceUrl(fullUrl);
+    };
+    init();
+  },
+]);

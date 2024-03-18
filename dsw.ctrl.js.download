@@ -1,0 +1,84 @@
+﻿
+angular.module('wmApp').controller('dswController', [
+    '$scope', '$location', '$routeParams', 'imgUploadService', 'hNewsService', '$sce', function ($scope, $location, $routeParams, imgUploadService, hNewsService, $sce) {
+        var errorFunction = function (error) {
+            console.log(error);
+        }
+        var categoryId = parseInt($routeParams.cId);
+
+        function init() {
+            $scope.docId = "";
+            $scope.docTitle = "";
+            //console.log($routeParams.cId);
+            $scope.copyright = new Date();
+            $scope.currentMinute = new Date().getTime();
+            //$scope.findCategoryWise(1);
+            if (categoryId > 0) {
+                console.log($routeParams.cId);
+                $scope.findCategoryWise(categoryId);
+            }
+
+        }
+        $scope.trustSrc = function (src) {
+            var fullUrl = "https://docs.google.com/viewer?srcid=" +
+                src +
+                "&pid=explorer&efh=false&a=v&chrome=false&embedded=true";
+            return $sce.trustAsResourceUrl(fullUrl);
+        }
+        $scope.showCalender = function (docId, title) {
+            $scope.docId = "";
+            $scope.docTitle = "";
+
+            $scope.docId = $scope.trustSrc(docId);
+            $scope.docTitle = title;
+
+        }
+
+        $scope.findCategoryWise = function (id) {
+            console.log(id);
+            $scope.overview = false;
+            $scope.personnel = false;
+            $scope.ocrh = false;
+            $scope.stdact = false;
+            $scope.medical = false;
+
+
+            switch (id) {
+                case 1:
+                    $scope.overview = true;
+                    break;
+                case 2:
+                    $scope.personnel = true;
+                    break;
+                case 3:
+                    $scope.ocrh = true;
+                    break;
+                case 4:
+                    $scope.stdact = true;
+                    break;
+                case 5:
+                    $scope.medical = true;
+                    break;
+                default:
+                    $scope.overview = true;
+                    break;
+
+            }
+        }
+        init();
+    }]);
+
+//function loadAcaProg(id, title) {
+//    console.log(id);
+//    $('#loader').show();
+//    //$("#calendarHeader").empty();
+//    //$("#calendarHeader").append(title);
+//    $("#calendarHeader").html(title);
+//    $("#frame")
+//        .attr("src",
+//            "https://docs.google.com/viewer?srcid=" +
+//            id +
+//            "&pid=explorer&efh=false&a=v&chrome=false&embedded=true");
+
+//    $('#loader').hide();
+//}

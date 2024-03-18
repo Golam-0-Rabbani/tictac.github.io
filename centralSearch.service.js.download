@@ -1,0 +1,510 @@
+﻿servAppCl.service("centralSearchService", [
+  "$resource",
+  "$q",
+  "baseService",
+  function ($resource, $q, baseService) {
+    var baseQueryUrl = baseService.apiServiceUrl + "CentralSearchQuery";
+
+    var loadFromDiaryPeople = function (obj) {
+      var defer = $q.defer();
+      var url = baseQueryUrl + "/LoadFromDiaryPeople";
+      var resource = $resource(url);
+      resource.save(
+        obj,
+        function (response) {
+          defer.resolve(response);
+        },
+        function (error) {
+          return defer.reject(error);
+        }
+      );
+      return defer.promise;
+    };
+    var loadFromDeptOffice = function (obj) {
+      var defer = $q.defer();
+      var url = baseQueryUrl + "/LoadFromDeptOffice";
+      var resource = $resource(url);
+      resource.save(
+        obj,
+        function (response) {
+          defer.resolve(response);
+        },
+        function (error) {
+          return defer.reject(error);
+        }
+      );
+      return defer.promise;
+    };
+    var loadFromResearchProfile = function (obj) {
+      var defer = $q.defer();
+      var url = baseQueryUrl + "/LoadFromResearchProfile";
+      var resource = $resource(url);
+      resource.save(
+        obj,
+        function (response) {
+          defer.resolve(response);
+        },
+        function (error) {
+          return defer.reject(error);
+        }
+      );
+      return defer.promise;
+    };
+    var loadFromNews = function (obj) {
+      var defer = $q.defer();
+      var url = baseQueryUrl + "/LoadFromNews";
+      var resource = $resource(url);
+      resource.save(
+        obj,
+        function (response) {
+          defer.resolve(response);
+        },
+        function (error) {
+          return defer.reject(error);
+        }
+      );
+      return defer.promise;
+    };
+    var loadFromNotice = function (obj) {
+      var defer = $q.defer();
+      var url = baseQueryUrl + "/LoadFromNotice";
+      var resource = $resource(url);
+      resource.save(
+        obj,
+        function (response) {
+          defer.resolve(response);
+        },
+        function (error) {
+          return defer.reject(error);
+        }
+      );
+      return defer.promise;
+    };
+    var pages;
+    var getPages = function () {
+      return pages;
+    };
+    pages = [
+      {
+        PageName: "Academics",
+        PageSubTitle: "Undergraduate Studies",
+        Detail: "",
+        URL: "/academics/3",
+      },
+      {
+        PageName: "Academics",
+        PageSubTitle: "Graduate Studies",
+        Detail: "",
+        URL: "/academics/4",
+      },
+      {
+        PageName: "Academics",
+        PageSubTitle: "International students",
+        Detail: "",
+        URL: "/academics/5",
+      },
+      {
+        PageName: "Academics",
+        PageSubTitle: "Overview",
+        Detail: "",
+        URL: "/academics/1",
+      },
+      {
+        PageName: "Academics",
+        PageSubTitle: "Faculties of BUET",
+        Detail: "",
+        URL: "/faculties",
+      },
+      {
+        PageName: "Academics",
+        PageSubTitle: "Academic Calendars",
+        Detail: "",
+        URL: "/academics/2",
+      },
+      {
+        PageName: "Academics",
+        PageSubTitle: "Ordinance",
+        Detail: "",
+        URL: "/academics/7",
+      },
+      {
+        PageName: "Academics",
+        PageSubTitle: "Other resources",
+        Detail: "",
+        URL: "/academics/6",
+      },
+      {
+        PageName: "Admission",
+        PageSubTitle: "Undergraduate Admission",
+        Detail: "",
+        URL: "/admission/1",
+      },
+      {
+        PageName: "Admission",
+        PageSubTitle: "Postgraduate Admission",
+        Detail: "",
+        URL: "/admission/2",
+      },
+      {
+        PageName: "Admission",
+        PageSubTitle: "Admission of Foreign Students",
+        Detail: "",
+        URL: "/admission/3",
+      },
+      {
+        PageName: "Admission",
+        PageSubTitle: "Scholarship Opportunities",
+        Detail: "",
+        URL: "/admission/5",
+      },
+      {
+        PageName: "Admission",
+        PageSubTitle: "Degrees Offered",
+        Detail: "",
+        URL: "/admission/4",
+      },
+      {
+        PageName: "Faculty Index",
+        PageSubTitle: "Faculty Index",
+        Detail: "research area ",
+        URL: "/profileIndex",
+      },
+      {
+        PageName: "Research",
+        PageSubTitle: "Research areas",
+        Detail: "",
+        URL: "/research/4",
+      },
+      {
+        PageName: "Research",
+        PageSubTitle: "Rise",
+        Detail: "",
+        URL: "/research/5",
+      },
+      {
+        PageName: "Research",
+        PageSubTitle: "Institutes/Centers",
+        Detail: "",
+        URL: "/research/6",
+      },
+      {
+        PageName: "Faculties of BUET",
+        PageSubTitle: "Faculties of BUET",
+        Detail: "",
+        URL: "/faculties",
+      },
+      {
+        PageName: "Departments of BUET",
+        PageSubTitle: "Departments of BUET",
+        Detail: "",
+        URL: "/department",
+      },
+      {
+        PageName: "Institutes of BUET",
+        PageSubTitle: "Institutes of BUET",
+        Detail: "",
+        URL: "/institutes",
+      },
+      {
+        PageName: "VICE CHANCELLOR'S OFFICE",
+        PageSubTitle: "VICE CHANCELLOR'S OFFICE",
+        Detail: "Prof. Dr. Satya Prasad Majumder",
+        URL: "/vcOffice",
+      },
+      {
+        PageName: "PRO-VICE CHANCELLOR'S OFFICE",
+        PageSubTitle: "PRO-VICE CHANCELLOR'S OFFICE",
+        Detail: "Prof. Dr. Abdul Jabbar Khan",
+        URL: "/proVcOffice",
+      },
+      {
+        PageName: "REGISTRAR OFFICE",
+        PageSubTitle: "REGISTRAR OFFICE",
+        Detail: "",
+        URL: "http://regoffice.buet.ac.bd/",
+      },
+      {
+        PageName: "CONTROLLER OF EXAMINATION",
+        PageSubTitle: "CONTROLLER OF EXAMINATION",
+        Detail: "",
+        URL: "/controllerOfExamination",
+      },
+      {
+        PageName: "COMPTROLLER OFFICE",
+        PageSubTitle: "COMPTROLLER OFFICE",
+        Detail: "",
+        URL: "/compOff",
+      },
+      {
+        PageName: "Directorate of Student's Welfare",
+        PageSubTitle: "Directorate of Student's Welfare",
+        Detail: "",
+        URL: "/dsw",
+      },
+      {
+        PageName: "BUET Teachers Serving at Nationally Important Positions",
+        PageSubTitle: "BUET Teachers Serving at Nationally Important Positions",
+        Detail: "",
+        URL: "/facultiesOnDeputation",
+      },
+      {
+        PageName: "IQAC",
+        PageSubTitle: "IQAC",
+        Detail: "",
+        URL: "http://iqac.buet.ac.bd/",
+      },
+      {
+        PageName: "Information And Communication Technology Cell (ICT Cell)",
+        PageSubTitle:
+          "Information And Communication Technology Cell (ICT Cell)",
+        Detail:
+          "ADNAN MAHMUD FUAD DR. RIFAT SHAHRIYAR MD. SAIFUL ISLAM SARDER MOHAMMED FARID UDDIN FERDOUS AHMMED BUET Website BUET Faculty Profile Microsoft Teams (Online Teaching Platfrom) BUET Medical Center Outlook Email Service (Office 365) Convocation 2019 Development, Maintenance and Support",
+        URL: "/ictCell",
+      },
+      {
+        PageName: "ENGINEERING OFFICE",
+        PageSubTitle: "ENGINEERING OFFICE",
+        Detail: "",
+        URL: "/engOff",
+      },
+      {
+        PageName: "DAERS OFFICE",
+        PageSubTitle: "DAERS OFFICE",
+        Detail: "",
+        URL: "/daers",
+      },
+      {
+        PageName: "IICT System and Support",
+        PageSubTitle: "IICT System and Support",
+        Detail: "",
+        URL: "https://iict.buet.ac.bd/?page_id=82",
+      },
+      {
+        PageName: "BUET Club",
+        PageSubTitle: "BUET Club",
+        Detail: "",
+        URL: "http://buetclub.buet.ac.bd/",
+      },
+      {
+        PageName: "Campus Life",
+        PageSubTitle: "Residential Life",
+        Detail: "",
+        URL: "/campusLife/1",
+      },
+      {
+        PageName: "Campus Life",
+        PageSubTitle: "Student Activities",
+        Detail: "",
+        URL: "/campusLife/2",
+      },
+      {
+        PageName: "Campus Life",
+        PageSubTitle: "Games and Athletics",
+        Detail: "",
+        URL: "/campusLife/3",
+      },
+      {
+        PageName: "Campus Life",
+        PageSubTitle: "Club",
+        Detail: "",
+        URL: "/campusLife/4",
+      },
+
+      {
+        PageName: "Campus Life",
+        PageSubTitle: "Occupational and alumni activities",
+        Detail: "",
+        URL: "/campusLife/5",
+      },
+      {
+        PageName: "BUET Medical",
+        PageSubTitle: "BUET Medical",
+        Detail: "",
+        URL: "http://medical.buet.ac.bd/web/#/",
+      },
+      {
+        PageName: "Library of BUET",
+        PageSubTitle: "Library of BUET",
+        Detail: "",
+        URL: "/library",
+      },
+      {
+        PageName: "IT Support",
+        PageSubTitle: "HELP DESK",
+        Detail: "",
+        URL: "/itSupport",
+      },
+      {
+        PageName: "FAQ",
+        PageSubTitle: "FREQUENTLY ASKED QUESTIONS",
+        Detail: "",
+        URL: "/faq",
+      },
+      {
+        PageName: "BIIS",
+        PageSubTitle: "BIIS",
+        Detail: "",
+        URL: "https://biis.buet.ac.bd/BIIS_WEB/Login.do",
+      },
+      {
+        PageName: "Microsoft Office",
+        PageSubTitle: "Microsoft Office 365 Official",
+        Detail: "",
+        URL: "https://www.office.com/",
+      },
+      {
+        PageName: "Notices",
+        PageSubTitle: "Notice Archive",
+        Detail:
+          "news updates , upcoming event, press release, employee, controller, office, tender announcement, job opportunity, downloads, registrar, engineering examination central library halls dsw, iict, casr medical daers",
+        URL: "/notice/17",
+      },
+      {
+        PageName: "About",
+        PageSubTitle: "Message from Vice Chancellor",
+        Detail: "Prof. Dr. Satya Prasad Majumder",
+        URL: "/about/2",
+      },
+      {
+        PageName: "About",
+        PageSubTitle: "Message from Pro-Vice-Chancellor",
+        Detail: "Prof. Dr. Abdul Jabbar Khan",
+        URL: "/about/5",
+      },
+      {
+        PageName: "About",
+        PageSubTitle: "List of Previous Vice-Chancellors",
+        Detail:
+          "Prof. Dr. M. A. Rashid  Dr. M. A. Naser Wahiduddin Ahmed bdul Matin Patwari M. H. Khan Muhammad Shahjahan Iqbal Mahmud Nooruddin Ahmed Alee Murtuza A. M. M. Safiullah Nazrul Islam Khaleda Ekram Saiful Islam",
+        URL: "/about/4",
+      },
+      {
+        PageName: "About",
+        PageSubTitle: "Vision and Mission",
+        Detail: "",
+        URL: "/about/3",
+      },
+      {
+        PageName: "About",
+        PageSubTitle: "Self-Portrayal",
+        Detail: "",
+        URL: "/about/1",
+      },
+      {
+        PageName: "About",
+        PageSubTitle: "Contact BUET",
+        Detail: "Address map East Campus West Palashi ECE Building,Azimpur Rd",
+        URL: "/contact",
+      },
+      {
+        PageName: "BRTC OFFICE",
+        PageSubTitle: "BRTC OFFICE",
+        Detail: "",
+        URL: "/brtc",
+      },
+      {
+        PageName: "Acknowledgement",
+        PageSubTitle: "Acknowledgement",
+        Detail: "",
+        URL: "/acknowledgement",
+      },
+      {
+        PageName: "Administration",
+        PageSubTitle: "Administration",
+        Detail:
+          "Dean, syndicate, heads, Directors of Institutes, Centers and Others, Provosts of Residential Halls, Administrative Officers, Advisers, Statutory Authorities. Offices ",
+        URL: "/administration",
+      },
+      {
+        PageName: "Faculty and Staff",
+        PageSubTitle: "Resource for Faculty and Staff",
+        Detail: "",
+        URL: "/facultyStaff",
+      },
+      {
+        PageName: "Students",
+        PageSubTitle: "Resource for Students",
+        Detail: "",
+        URL: "/student",
+      },
+      {
+        PageName: "BUET Alumni",
+        PageSubTitle: "BUET Alumni",
+        Detail: "",
+        URL: "http://buetalumni.org/",
+      },
+      {
+        PageName: "Covid 19",
+        PageSubTitle: "Covid-19 Advisory",
+        Detail:
+          "Vice-Chancellor's Message, Academic Information, Health Safety & Support",
+        URL: "/covid19/2",
+      },
+      {
+        PageName: "About",
+        PageSubTitle: "About",
+        Detail: "",
+        URL: "/about/1",
+      },
+      {
+        PageName: "News & Events",
+        PageSubTitle: "News & Events",
+        Detail:
+          "achievement development national student research alumni grants news consultancy other",
+        URL: "/hNewsIndex",
+      },
+      {
+        PageName: "Academics",
+        PageSubTitle: "At a Glance",
+        Detail: "",
+        URL: "/academics/1",
+      },
+      {
+        PageName: "Research",
+        PageSubTitle: "Overview",
+        Detail: "",
+        URL: "/research/1",
+      },
+
+      {
+        PageName: "Faculty And Staff",
+        PageSubTitle: "File Tracker",
+        Detail: "",
+        URL: "http://biis.buet.ac.bd:8081/FileTracker/login",
+      },
+      {
+        PageName: "Faculty And Staff",
+        PageSubTitle: "CASR",
+        Detail: "",
+        URL: "https://casrproposal.buet.ac.bd/login",
+      },
+      {
+        PageName: "Faculty And Staff",
+        PageSubTitle: "Online Requisition",
+        Detail: "",
+        URL: "http://biis.buet.ac.bd:8081/FileTracker/req",
+      },
+      {
+        PageName: "Research",
+        PageSubTitle: "Partnership",
+        Detail: "",
+        URL: "/research/7",
+      },
+      {
+        PageName: "Research",
+        PageSubTitle: "Memorandum of Understanding (MoU)",
+        Detail: "",
+        URL: "/research/8",
+      },
+    ];
+
+    return {
+      loadFromDiaryPeople: loadFromDiaryPeople,
+      loadFromDeptOffice: loadFromDeptOffice,
+      loadFromResearchProfile: loadFromResearchProfile,
+      loadFromNews: loadFromNews,
+      loadFromNotice: loadFromNotice,
+      getPages: getPages,
+    };
+  },
+]);

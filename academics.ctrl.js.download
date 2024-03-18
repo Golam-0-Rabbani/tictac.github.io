@@ -1,0 +1,42 @@
+﻿angular.module("wmApp").controller("academicsController", [
+	"$scope",
+	"$routeParams",
+	"$sce",
+	function ($scope, $routeParams, $sce) {
+		var errorFunction = function (error) {
+			console.log(error);
+		};
+		var categoryId = parseInt($routeParams.cId);
+
+		function init() {
+			$scope.docId = "";
+			$scope.docTitle = "";
+
+			$scope.copyright = new Date();
+			$scope.currentMinute = new Date().getTime();
+
+			if ($scope.categoryId == undefined || isNaN($scope.categoryId)) {
+				$scope.findCategoryWise(categoryId);
+			}
+		}
+		$scope.trustSrc = function (src) {
+			var fullUrl =
+				"https://docs.google.com/viewer?srcid=" +
+				src +
+				"&pid=explorer&efh=false&a=v&chrome=false&embedded=true";
+			return $sce.trustAsResourceUrl(fullUrl);
+		};
+		$scope.showCalender = function (docId, title) {
+			$scope.docId = "";
+			$scope.docTitle = "";
+
+			$scope.docId = $scope.trustSrc(docId);
+			$scope.docTitle = title;
+		};
+		$scope.findCategoryWise = function (id) {
+			$scope.categoryId = id;
+		};
+
+		init();
+	},
+]);

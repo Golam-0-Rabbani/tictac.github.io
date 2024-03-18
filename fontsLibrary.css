@@ -1,0 +1,90 @@
+﻿@font-face {
+    font-family: 'Dosis-Bold';
+    src: url('../fonts/Dosis-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Dosis-Regular';
+    src: url('../fonts/Dosis-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Montserrat-Medium';
+    src: url('../fonts/Montserrat-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto_Condensed_Regular';
+    src: url('../fonts/Roboto_Condensed_Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'SolaimanLipi';
+    src: url('../fonts/SolaimanLipi.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/Roboto_Condensed_Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'MarckScript-Regular';
+    src: url('../fonts/MarckScript-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Kanit-LightItalic';
+    src: url('../fonts/Kanit-LightItalic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'MontserratAlternates-Italic';
+    src: url('../fonts/MontserratAlternates-Italic.ttf') format('truetype');
+}
+
+.fontSmoother {
+    -webkit-font-smoothing: antialiased;
+}
+
+.smoothed {
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
+@font-face {
+    font-family: 'futur';
+    src: url('../fonts/futur.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Futura Bold font';
+    src: url('../fonts/Futura Bold font.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Futura Bold Italic font';
+    src: url('../fonts/Futura Bold Italic font.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Futura Book font';
+    src: url('../fonts/Futura Book font.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'futura light bt';
+    src: url('../fonts/futura light bt.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'futura medium bt';
+    src: url('../fonts/futura medium bt.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Futura Light font';
+    src: url('../fonts/Futura Light font.ttf') format('truetype');
+}

@@ -1,0 +1,170 @@
+﻿angular
+  .module("wmApp")
+  .controller("buetSearchController", [
+    "$scope",
+    "buetSearchService",
+    "$timeout",
+    function ($scope, buetSearchService, $timeout) {
+      var errorFunction = function (error) {
+        console.log(error);
+      };
+
+      $scope.pageName = "Search People or Offices";
+
+      $scope.init = function () {
+        $scope.chkBox = {
+          people: true,
+          dept: false,
+        };
+        $scope.searchText = "";
+        $scope.showPeople = false;
+        $scope.showDept = false;
+
+        $scope.peopleList = [];
+        $scope.deptOfficeList = [];
+        $scope.loadAllPeople();
+        $scope.loadAllDeptOffice();
+      };
+
+      $scope.divShow = function (cond) {
+        switch (cond) {
+          case 0:
+            if ($scope.filterText != null && $scope.filterText != "") {
+              if ($scope.chkBox.people && $scope.chkBox.dept) {
+                $scope.showPeople = true;
+                $scope.showDept = true;
+              }
+              if ($scope.chkBox.people && !$scope.chkBox.dept) {
+                $scope.showPeople = true;
+                $scope.showDept = false;
+              }
+              if (!$scope.chkBox.people && $scope.chkBox.dept) {
+                $scope.showPeople = false;
+                $scope.showDept = true;
+              }
+              if (!$scope.chkBox.people && !$scope.chkBox.dept) {
+                $scope.showPeople = false;
+                $scope.showDept = false;
+              }
+            } else {
+              $scope.showPeople = false;
+              $scope.showDept = false;
+            }
+            break;
+          case 1:
+            //console.log("Exceuted");
+            if ($scope.chkBox.people && $scope.chkBox.dept) {
+              $scope.showPeople = true;
+              $scope.showDept = true;
+            }
+            if ($scope.chkBox.people && !$scope.chkBox.dept) {
+              $scope.showPeople = true;
+              $scope.showDept = false;
+            }
+            if (!$scope.chkBox.people && $scope.chkBox.dept) {
+              $scope.showPeople = false;
+              $scope.showDept = true;
+            }
+            if (!$scope.chkBox.people && !$scope.chkBox.dept) {
+              $scope.showPeople = true;
+              $scope.showDept = true;
+            }
+
+            break;
+          default:
+            $scope.showPeople = false;
+            $scope.showDept = false;
+            break;
+        }
+      };
+
+      var tempFilterText = null,
+        filterTextTimeout;
+      $scope.$watch("searchText", function (val) {
+        if (filterTextTimeout) $timeout.cancel(filterTextTimeout);
+        tempFilterText = val;
+        filterTextTimeout = $timeout(function () {
+          if (tempFilterText != null && tempFilterText != "") {
+            $scope.filterText = tempFilterText;
+            if ($scope.filterText != null && $scope.filterText != "") {
+              //console.log("Heelo" + tempFilterText);
+              $scope.divShow(1);
+            }
+          } else {
+            $scope.divShow(3);
+          }
+
+          if ($scope.filterText == null) {
+            //console.log("no Text");
+          }
+        }, 250);
+      });
+
+      $scope.loadAllPeople = function () {
+        $scope.peopleList = [];
+        buetSearchService.getAllPeople().then(function (response) {
+          if (response.IsSuccess) {
+            $scope.peopleList = response.Data;
+          } else {
+            console.log(response);
+          }
+        }, errorFunction);
+      };
+      $scope.loadAllDeptOffice = function () {
+        $scope.deptOfficeList = [];
+        buetSearchService.getAllDepOffices().then(function (response) {
+          if (response.IsSuccess) {
+            $scope.deptOfficeList = response.Data;
+          } else {
+            console.log(response);
+          }
+        }, errorFunction);
+      };
+      $scope.init();
+    },
+  ])
+  .filter("numkeys", function () {
+    return function (object) {
+      return Object.keys(object).length;
+    };
+  });
+
+servAppCl.service("buetSearchService", [
+  "$resource",
+  "$q",
+  "baseService",
+  function ($resource, $q, baseService) {
+    var baseUrl = baseService.apiServiceUrl + "diary";
+    var getAllPeople = function () {
+      var defer = $q.defer();
+      var resource = $resource(baseUrl + "/LoadPeople");
+      resource.get(
+        function (response) {
+          defer.resolve(response);
+        },
+        function (error) {
+          return defer.reject(error);
+        }
+      );
+      return defer.promise;
+    };
+    var getAllDepOffices = function () {
+      var defer = $q.defer();
+      var resource = $resource(baseUrl + "/LoadDeptOffice");
+      resource.get(
+        function (response) {
+          defer.resolve(response);
+        },
+        function (error) {
+          return defer.reject(error);
+        }
+      );
+      return defer.promise;
+    };
+
+    return {
+      getAllPeople: getAllPeople,
+      getAllDepOffices: getAllDepOffices,
+    };
+  },
+]);
